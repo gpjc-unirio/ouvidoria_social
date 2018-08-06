@@ -1,0 +1,63 @@
+﻿@using ouvidoria_social.Models.Utils
+@using Ouvidoria_Social_DataAccess
+@{
+    var reclamacoes = ConnectionDbClass.DataModel.Reclamacaos.Where(w => w.IsAtivo.Value).
+        OrderByDescending(o => o.DataHora).Take(10);
+}
+
+@foreach (var rec in reclamacoes)
+{
+    var sobrenome = "";
+    var nomes = rec.Pessoa.Nome.Trim().Split(' ');
+    if (nomes.Count() >= 2)
+    {
+        sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+    }
+
+    <li class="news-item">
+        <table class="table table-responsive">
+            <tr>
+                <td rowspan="3" width="5%" valign="middle">
+                    @{
+    var nickComentario = rec.Pessoa.Nome;
+    var urlComentario = Url.Content("~/Images/Uploads/Avatar/" + rec.Pessoa.Avatar);
+                    }
+
+                    @if (!string.IsNullOrEmpty(rec.Pessoa.Avatar))
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @rec.Pessoa.Id})'>
+                            <img class="img-circle" alt='@nickComentario' src='@urlComentario' width="48" height="48">
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-lg" style="border-radius: 100px" href='@Url.Action("Perfil", "Usuario", new {Id = @rec.Pessoa.Id})'>
+                            @(rec.Pessoa.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                        </a>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>
+                        <a href='@Url.Action("AcessarReclamacao", "Ouvidoria", new {Id = rec.Id})'>@rec.Titulo</a><small>  (@(DataUtils.ToStringPost(rec.DataHora.Value)))</small>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-justify" align="left">
+                    @{
+                        var desc = string.IsNullOrEmpty(rec.Descricao) ? "" : rec.Descricao;
+
+                        if (desc.Length > 200)
+                        {
+                            desc = desc.Substring(0, 200) + " ...";
+                        }
+                    }
+
+                    @desc
+                </td>
+            </tr>
+        </table>
+    </li>
+}

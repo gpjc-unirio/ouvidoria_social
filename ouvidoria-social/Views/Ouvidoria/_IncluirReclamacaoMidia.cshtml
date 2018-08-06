@@ -1,0 +1,85 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Reclamacao
+
+@{
+    var model = ConnectionDbClass.DataModel;
+
+    var insts = model.Instituicaos.OrderBy(o => o.Nome).ToList();
+
+    var lstInstituicoes = new SelectList(insts, "Id", "Nome", insts.First());
+}
+
+<script type="text/javascript">
+    
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function () {
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+    });
+
+</script>
+
+<ul class="nav nav-tabs nav-justified">
+    <li role="presentation">
+        <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#reclamacao" href="@Url.Action("_IncluirReclamacao", "Ouvidoria", new {tipo = "t"})">
+            <i class="glyphicon glyphicon-text-background"></i> Texto
+        </a></li>
+    <li role="presentation" class="active"><a href="#"><i class="glyphicon glyphicon-picture"></i> Foto/Vídeo</a></li>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Label("Foto / Vídeo")
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Buscar&hellip; <input type="file" name="file" id="file">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" style="width: 100%;" readonly>
+                </div><br/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                @if (Model != null)
+                {
+                    @Html.HiddenFor(l => l.Id)
+                }
+
+                @Html.LabelFor(l => l.Titulo)<br/>
+                @Html.TextBoxFor(l => l.Titulo, new Dictionary<string, object>() {{"class", "form-control"}, {"autofocus", "autofocus"}, {"maxlength", 50}})<br/>
+
+                @Html.Label("Instituição")
+                @Html.DropDownListFor(l => l.Id_instituicao, lstInstituicoes, new Dictionary<string, object>() {{"class", "form-control"}})<br/>
+                <!--
+                <small><a data-toggle="modal" data-target="#myModal" href='#'>Incluir Nova Instituição</a></small><br/>
+                -->
+                @Html.Label("Departamento")
+                @Html.TextBoxFor(l => l.Departamento, new Dictionary<string, object>() {{"class", "form-control"}})
+            </div>
+
+            <div class="col-md-6">
+                @Html.Label("Descrição da Reclamação")<br/>
+                @Html.TextAreaFor(l => l.Descricao, new Dictionary<string, object>() {{"class", "form-control textarea"}, {"maxlength", 2500}})<br/>
+            </div>
+        </div>
+    </div>
+</div>

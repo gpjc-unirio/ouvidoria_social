@@ -1,0 +1,105 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Pessoa
+
+@{
+    var model = ConnectionDbClass.DataModel;
+
+    var ufs = model.Ufs.ToList();
+    ufs.Insert(0, new Uf()
+    {
+        Nome ="Estado",
+        Uf1 = "-"
+    });
+
+    var estados = new SelectList(ufs, "uf1", "Nome");
+}
+<script type="text/javascript">
+        $(document).ready(function() {
+            $("#Ufs").change(function() {
+                listaCidade($(this).val());
+            });
+        });
+
+        //chamada ajax para a Action ListaCidade
+        //passando como parâmetro a Estado selecionado
+        function listaCidade(uf) {
+
+            var url = "@Url.Action("ListaCidade")" + "/?uf=" + uf;
+
+            $.getJSON(url, listaCidadeCallBack);
+        }
+        //função que irá ser chamada quando terminar
+        //a chamada ajax
+        function listaCidadeCallBack(json) {
+            $("#Id_cidade :gt(0)").remove();
+            $(json).each(function () {
+                //adicionando as opções de acordo com o retorno
+                $("#Id_cidade").append("<option value='" + this.Id + "'>" + this.Cidade + "</option>");
+            });
+        }
+</script>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Campos Perfil</h3>
+    </div>
+        @using (Ajax.BeginForm("AddPessoaAjax", "Autenticacao", null, new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            LoadingElementId = "divProgress2",
+            UpdateTargetId = "addUsuario",
+            OnSuccess = "OnSuccess2",
+            InsertionMode = InsertionMode.Replace
+        }, new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
+        {
+            <div class="panel-body">
+                @Html.Label("O que você é?")
+                <span>&nbsp;</span>
+                @Html.RadioButtonFor(r => r.Tipo, "P", new Dictionary<string, object>() { { "checked", "checked" } })
+                <span>Pessoa</span>
+                @Html.RadioButtonFor(r => r.Tipo, "I")<span>Instituição</span>
+                <br />
+
+
+                @Html.Label("Nome*")<br />
+                @Html.TextBoxFor(l => l.Nome, new Dictionary<string, object>() { { "autofocus", "autofocus" }, { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control" } })<br />
+
+                <!--
+                @Html.LabelFor(l => l.Apelido)<br/>
+                @Html.TextBoxFor(l => l.Apelido, new Dictionary<string, object>() {{"maxlenght", 100}, {"size", 90}, {"class", "form-control"}})<br/>
+                -->
+                @Html.Label("E-Mail*")<br />
+                @Html.TextBoxFor(l => l.Email, new Dictionary<string, object>() { { "maxlenght", 100 }, { "type", "email" }, { "size", 90 }, { "class", "form-control" } })<br />
+                <!--
+                @Html.Label("Telefone (Fixo ou Celular)")<br/>
+                @Html.TextBoxFor(l => l.Telefone, new Dictionary<string, object>() {{"maxlenght", 11}, {"type", "tel"}, {"size", 20}, {"class", "form-control"}})<br/>
+
+                @Html.Label("Estado")<br/>
+                @Html.DropDownList("Ufs", estados, new Dictionary<string, object>() {{"class", "form-control"}})
+
+                @Html.Label("Cidade")<br/>
+                <select id="Id_cidade" class="form-control" name="Id_cidade">
+                    <option selected="selected" value="">Cidade</option>
+                </select><br/>
+                -->
+                @Html.Label("Descrição")<br />
+                @Html.TextAreaFor(l => l.Descricao, new Dictionary<string, object>() { { "maxlenght", 500 }, { "size", 80 }, { "class", "form-control" } })<br />
+
+
+                <p />
+                <button class="btn btn-success" id="btnGravarPessoa" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button><br />
+
+
+            </div>
+            <div class="panel-footer">
+                <small>*(campos obrigatórios)</small>
+                @Html.ValidationSummary()
+                @if (ViewBag.Error != null)
+                {
+                    <div class="panel-footer text-center">
+                        <h3 class="panel-title">@ViewBag.Error</h3>
+                    </div>
+                }
+            </div>
+        }
+</div>

@@ -1,0 +1,350 @@
+﻿@using ouvidoria_social.Models.Enum
+@using ouvidoria_social.Models.Utils
+@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Reclamacao
+
+@{
+    ViewBag.Title = "Reclamação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Usuario usuario = null;
+    Log_participapao log = null;
+    var isOwner = false;
+    var isSolucaoFinal = Model.Comentarios.Any(a => a.IsSolucaoFinal.Value);
+    
+    var nick = Model.Pessoa.Nome;
+
+    var sobrenome = "";
+    var nomes = Model.Pessoa.Nome.Trim().Split(' ');
+    if (nomes.Count() >= 2)
+    {
+        sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+    }
+    
+    if (Session["Usuario"] != null)
+    {
+        usuario = (Usuario)Session["Usuario"];
+
+        if (Model.Pessoa != null)
+        {
+            isOwner = Model.Pessoa.Id == usuario.Pessoa.Id;
+        }
+
+        var model = ConnectionDbClass.DataModel;
+
+        log = Model.Log_participapaos.FirstOrDefault(f => f.Id_pessoa == usuario.Id_pessoa && f.Tipo == "Acessou");
+
+        if (log == null)
+        {
+            log = new Log_participapao()
+            {
+                Acesso = true,
+                Datahora = DateTime.Now,
+                Pessoa = usuario.Pessoa,
+                Reclamacao = Model,
+                Tipo = "Acessou"
+            };
+
+            Model.Log_participapaos.Add(log);
+
+            if (model.HasChanges)
+            {
+                model.SaveChanges();
+            }
+        }
+
+        PontuacaoUtils.Pontuar(usuario.Pessoa, PontuacaoEnum.AcessoReclamacao);
+    }
+}
+
+<script type="text/javascript">
+
+    function Sucesso() {
+
+        $("#titulo").val("");
+        $("#descricao").val("");
+        $("#myModal").modal("hide");
+    }
+
+    function marcardesmarcar() {
+        $(".marcar").each(function () {
+            if (this.checked) $(this).attr("checked", false);
+            else $(this).prop("checked", true);
+        });
+    }
+
+    function Desativar(obj) {
+        $("#" + obj).click(function () { return false; });
+        $("#" + obj).css({"color": "black"});
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function () {
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $('#btn').click(function () {
+            $('#myModal').modal();
+        });
+    });
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @{
+
+            var url = Url.Content("~/Images/Uploads/Avatar/" + Model.Pessoa.Avatar);
+        }
+        <ul class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Home")">Ouvidoria Social</a><span class="divider"></span></li>
+            <li><a href="@Url.Action("Reclamacoes", "Ouvidoria")">Reclamações</a><span class="divider"></span></li>
+            <li class="active"><a href="@Url.Action("Perfil", "Usuario", new {Id = Model.Instituicao.Pessoas[0].Id})">@Model.Instituicao.Nome</a><span class="divider"></span></li>
+            <li>@Model.Departamento</li>
+        </ul>
+    </div>
+    <div class="panel-body">
+
+        <h3 class="text-center">
+            <strong><ins>@Model.Titulo</ins></strong><br/>
+        </h3>
+        
+            @if (!string.IsNullOrEmpty(Model.Anexo))
+            {
+                <div align="center" class="embed-responsive embed-responsive-16by9">
+                    @{
+                        var urlAnexo = Url.Content("~/Images/Uploads/Queixa/" + Model.Anexo);
+
+                        if (Model.Anexo.Contains("jpg"))
+                        {
+                            <a href="@urlAnexo">
+                                <img class="img-responsive center-block embed-responsive-item" src='@urlAnexo'/>
+                            </a>
+                        }
+                        else
+                        {
+                            <video controls class="embed-responsive-item">
+                                <source src="@urlAnexo" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                            </video>
+                        }
+                    }
+                </div>
+            }
+        
+        <br/>
+        <div class="panel panel-default">
+            <div class="panel-body text-justify">
+                <p>
+                    @if (Model.Descricao != null)
+                    {
+                        foreach (var desc in Model.Descricao.Split('\n'))
+                        {
+                            @desc<br/>
+                        }
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-1 vertical-align">
+                @if (usuario != null)
+                {
+                    if (!isOwner)
+                    {
+                        var liked = Model.Log_participapaos.Where(w => w.Id_curtidor == usuario.Id_pessoa && w.Tipo.ToLower().Contains("curti")).ToList();
+
+                        if (liked.Count == 0)
+                        {
+                            <a id="likeRec" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="Desativar(likeRec.id);" data-ajax-update="#likes"
+                               href="@Url.Action("_AtualizarLikesDeslikes", "Ouvidoria", new {id = Model.Id, tipo = true})">
+                                <span id="likes">
+                                    <span class="glyphicon glyphicon-thumbs-up "></span><span>@(Model.Likes ?? 0)</span>
+                                </span>
+                            </a>
+                            <a id="deslikeRec"data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="Desativar(deslikeRec.id);" data-ajax-update="#deslikes"
+                               href="@Url.Action("_AtualizarLikesDeslikes", "Ouvidoria", new {id = Model.Id, tipo = false})">
+                                <span id="deslikes">
+                                <span class="glyphicon glyphicon-thumbs-down"></span><span>@(Model.Deslikes ?? 0)</span>
+                            </span>
+                            </a>
+                        }
+                        else
+                        {
+                            <span id="likes">
+                                <span class="glyphicon glyphicon-thumbs-up "></span><span>@(Model.Likes ?? 0)</span>
+                            </span>
+                            <span id="deslikes">
+                                <span class="glyphicon glyphicon-thumbs-down"></span><span>@(Model.Deslikes ?? 0)</span>
+                            </span>
+                        }
+                    }
+                    else
+                    {
+                        <span id="likes">
+                            <span class="glyphicon glyphicon-thumbs-up "></span><span>@(Model.Likes ?? 0)</span>
+                        </span>
+                        <span id="deslikes">
+                            <span class="glyphicon glyphicon-thumbs-down"></span><span>@(Model.Deslikes ?? 0)</span>
+                        </span>
+                    }
+                }
+            </div>
+            <div class="col-md-5 text-left ">
+                @if (usuario != null)
+                {
+                    if (!isSolucaoFinal)
+                    {
+                        <a a data-toggle="modal" data-target="#myModal" class="label label-primary"><span class="glyphicon glyphicon-comment"> </span><span> Comentar</span></a>
+                    }
+                }
+            </div>
+            <div class="col-md-6 text-right">
+                <strong>
+                    @if (!string.IsNullOrEmpty(Model.Pessoa.Avatar))
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @Model.Pessoa.Id})'>
+                            <img class="img-circle" alt='@nick' src='@url' width="32" height="32"> @nick
+                        </a>
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @Model.Pessoa.Id})' class="btn btn-primary btn-sm" style="border-radius: 100px">
+                            @(Model.Pessoa.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                        </a> 
+                        @nick
+                    }
+                    <span> em: </span>@Model.DataHora.Value.ToString("dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture) 
+                    - @Model.DataHora.Value.ToString("HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture) 
+                </strong>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (ViewBag.Erro != "" && ViewBag.Erro != null)
+        {
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Erro:</strong>
+                <p>@ViewBag.Erro</p>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row" id="comentarios">
+    @Html.Partial("_VerComentariosView", Model)
+</div>
+
+@if (!isOwner)
+{
+    <div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Novo Comentário</h4>
+                </div>
+                @using (Ajax.BeginForm("AddComentarioAjax", "Ouvidoria", new AjaxOptions()
+                {
+                    HttpMethod = "POST",
+                    LoadingElementId = "divProgress",
+                    UpdateTargetId = "comentarios",
+                    OnSuccess = "Sucesso",
+                    InsertionMode = InsertionMode.Replace
+                }))
+                {
+                    <div class="modal-body">
+
+                        @Html.Hidden("id_reclamacao", Model.Id, new Dictionary<string, object>() {{"class", "form-control"}})
+                        @Html.Hidden("id_pessoa", Model.Pessoa.Id, new Dictionary<string, object>() { { "class", "form-control" } })
+                        
+                        @Html.Label("Descrição")<br/>
+                        @Html.TextArea("descricao", "", new Dictionary<string, object>() {{"class", "form-control textarea"}})<br/>
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" name="addInstituicao"><i class="glyphicon glyphicon-floppy-disk"></i> Publicar</button>
+                        <button class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Novo Comentário</h4>
+                </div>
+                @using (Html.BeginForm("AddComentarioAjax", "Ouvidoria", FormMethod.Post, new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
+                {
+                    <div class="modal-body">
+
+                        @Html.Hidden("id_reclamacao", Model.Id, new Dictionary<string, object>() { { "class", "form-control" } })
+                        @Html.Hidden("id_pessoa", usuario.Pessoa.Id, new Dictionary<string, object>() { { "class", "form-control" } })
+                        @Html.Hidden("tipo", "http", new Dictionary<string, object>() { { "class", "form-control" } })
+                        
+                        @Html.Label("Descrição")<br />
+                        @Html.TextArea("descricao", "", new Dictionary<string, object>() { { "class", "form-control textarea" }, { "maxlength", 2500 } })<br/>
+
+                        @if (isOwner)
+                        {
+                            @Html.CheckBox("IsSolucaoFinal", false)<span> &nbsp;</span>
+                            @Html.Label("Finalizar Reclamação")
+                            <br />
+
+                            @Html.Label("Foto / Vídeo")
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-primary btn-file">
+                                        Buscar&hellip; <input type="file" name="file" id="file">
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" style="width: 100%;" readonly>
+                            </div>
+                            <br />
+                        }
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" name="addInstituicao"><i class="glyphicon glyphicon-floppy-disk"></i> Publicar</button>
+                        <button class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

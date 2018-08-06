@@ -1,0 +1,6 @@
+﻿{
+    "DataBasePort": 3306,
+    "DataBaseUser": "root",
+    "DataBasePsw": "admin",
+    "DataBaseAddres": "localhost"
+}

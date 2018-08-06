@@ -1,0 +1,32 @@
+﻿@using System.Web.UI.WebControls
+@using ouvidoria_social.Models.Adapter
+@using Ouvidoria_Social_DataAccess
+@model List<Ouvidoria_Social_DataAccess.Log_participapao>
+
+@{
+    Usuario user = null;
+    if (Session["Usuario"] != null)
+    {
+        user = (Usuario) Session["Usuario"];
+    }
+}
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <small>@LogAdapter.Mensagem(item)</small>              
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6"><small><a href="@Url.Action("PerfilNotificacao", "Usuario", new { id = user.Id_pessoa })">Ver Todas</a></small></div>
+    <div class="col-md-6 text-right"><small>
+        @Ajax.ActionLink("Marcar Como Lidas", "MarcarNotificacoesLidasAjax", new {idPessoa = user.Id_pessoa}, new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "msg",
+            InsertionMode = InsertionMode.Replace
+        })</small></div>
+</div>

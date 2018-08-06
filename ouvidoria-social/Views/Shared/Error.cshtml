@@ -1,0 +1,14 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<h1 class="text-danger">Error</h1>
+<h2 class="text-danger">Um erro aconteceu ao tentar processar sua requisição.</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Erro))
+{
+    <h2 class="text-danger">@((ViewBag.Erro as string).Replace("\n", "<br/>"))</h2>
+}
+

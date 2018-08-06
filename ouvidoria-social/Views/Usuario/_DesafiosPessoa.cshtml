@@ -1,0 +1,173 @@
+﻿@model Ouvidoria_Social_DataAccess.Pessoa
+           
+@using Ouvidoria_Social_DataAccess
+
+@{
+    var desafios = Model.Pessoa_desafios.ToList();
+}
+
+<div class="col-md-9">
+    <div class="table-responsive">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title"><i class="glyphicon glyphicon-star"></i> Desafios</h3>
+            </div>
+            <div class="panel-body">
+                @for (int i = 0; i < desafios.Count; i++)
+            {
+                    <div class="row">
+                        @{
+                            if (i < desafios.Count)
+                            {
+                                var des = desafios[i];
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading text-center"><strong>@des.Desafio.Titulo</strong></div>
+                                        <div class="panel-body text-center vertical-align">
+                                            <div class="col-md-5">
+                                                @{
+                                                    var badge = des.Desafio.Id;
+                                                    if (des.VezesGanhas == 0)
+                                                    {
+                                                        badge = 0;
+                                                    }
+                                                }
+
+                                                <img class="img-responsive" width="60" height="60" src="@Url.Content("~/Images/badges/" + badge + ".png")"/>
+                                            </div>
+                                            <div class="col-md-7">@des.Desafio.Descricao</div>
+                                        </div>
+                                        <div class="panel-footer text-center">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    @if (badge != 0)
+                                                    {
+                                                        <img class="img-responsive" width="26" height="26" src="@Url.Content("~/Images/badges/t.gif")" />
+                                                    }
+                                                </div>
+                                                <div class="col-md-9">
+                                                    @{var
+                                                        data = "";
+                                                    }
+                                                    @if (badge != 0)
+                                                    {
+                                                        data = des.Data.Value.ToShortDateString() + " - " + des.Hora.Value.ToShortTimeString();
+                                                    }
+
+                                                    <strong>@data</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            i++;
+                        }
+                        @{
+                            if (i < desafios.Count)
+                            {
+                                var des = desafios[i];
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading text-center"><strong>@des.Desafio.Titulo</strong></div>
+                                        <div class="panel-body text-center vertical-align">
+                                            <div class="col-md-5">
+                                                @{
+                                                    var badge = des.Desafio.Id;
+                                                    if (des.VezesGanhas == 0)
+                                                    {
+                                                        badge = 0;
+                                                    }
+                                                }
+
+                                                <img class="img-responsive" width="60" height="60" src="@Url.Content("~/Images/badges/" + badge + ".png")" />
+                                            </div>
+                                            <div class="col-md-7">@des.Desafio.Descricao</div>
+                                        </div>
+                                        <div class="panel-footer text-center">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    @if (badge != 0)
+                                                    {
+                                                        <img class="img-responsive" width="26" height="26" src="@Url.Content("~/Images/badges/t.gif")" />
+                                                    }
+                                                </div>
+                                                <div class="col-md-9">
+                                                    @{var 
+                                                        data = "";
+                                                    }
+                                                    @if (badge != 0)
+                                                    {
+                                                        data = des.Data.Value.ToShortDateString() + " - " + des.Hora.Value.ToShortTimeString();
+                                                    }
+
+                                                    <strong>@data</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            i++;
+                        }
+                        @{
+                            if (i < desafios.Count)
+                            {
+                                var des = desafios[i];
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading text-center"><strong>@des.Desafio.Titulo</strong></div>
+                                        <div class="panel-body text-center vertical-align">
+                                            <div class="col-md-5">
+                                                @{
+                                                    var badge = des.Desafio.Id;
+                                                    if (des.VezesGanhas == 0)
+                                                    {
+                                                        badge = 0;
+                                                    }
+                                                }
+
+                                                <img class="img-responsive" width="60" height="60" src="@Url.Content("~/Images/badges/" + badge + ".png")" />
+                                            </div>
+                                            <div class="col-md-7">@des.Desafio.Descricao</div>
+                                        </div>
+                                        <div class="panel-footer text-center">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    @if (badge != 0)
+                                                    {
+                                                        <img class="img-responsive" width="26" height="26" src="@Url.Content("~/Images/badges/t.gif")"/>
+                                                    }
+                                                </div>
+                                                <div class="col-md-9">
+                                                    @{var
+                                                        data = "";
+                                                    }
+                                                    @if (badge != 0)
+                                                    {
+                                                        data = des.Data.Value.ToShortDateString() + " - " + des.Hora.Value.ToShortTimeString();
+                                                    }
+
+                                                    <strong>@data</strong>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="panel-footer text-right">
+                
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,93 @@
+﻿@model Ouvidoria_Social_DataAccess.Pessoa
+@{
+    ViewBag.Title = "Registro de Novo Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#divProgress3").css("display", "none");
+    });
+
+    function OnSuccess() {
+        $("#btnComecar").attr('disabled', 'disabled');
+        $(".progress-bar").attr("style", "width: 10%;");
+        $("#valorRegistro").html("10%");
+    }
+
+    function OnSuccess2() {
+        $("#btnGravarPessoa").attr('disabled', 'disabled');
+        $("#addPessoa").attr('disabled', 'disabled');
+        $("#Nome").attr('disabled', 'disabled');
+        $("#Descricao").attr('disabled', 'disabled');
+        $("#Apelido").attr('disabled', 'disabled');
+        $("#Telefone").attr('disabled', 'disabled');
+        $("#Email").attr('disabled', 'disabled');
+        $("#Id_cidade").attr('disabled', 'disabled');
+        $("#Ufs").attr('disabled', 'disabled');
+        $(".progress-bar").attr("style", "width: 75%;");
+        $("#valorRegistro").html("75%");
+    }
+
+    function OnSuccess3() {
+        $("#btnGravarUsuario").attr('disabled', 'disabled');
+        $(".progress-bar").attr("style", "width: 100%;");
+        $("#valorRegistro").html("100%");
+        $("#Login").attr('disabled', 'disabled');
+        $("#Senha").attr('disabled', 'disabled');
+
+        if (!$("#alertmsg1").is(".in")) {
+            $("#alertmsg1").addClass("in");
+
+            setTimeout(function () {
+                var urlLogin = "@Html.Raw(Url.Action("Index", "Autenticacao"))";
+                $("#alertmsg1").removeClass("in");
+                $(location).attr('href', urlLogin);
+            }, 5000);
+        };
+    }
+</script>
+
+<!--
+<div class="jumbotron">
+    <h1>Registro de Novo Usuário</h1>
+    <p class="lead">Olá Usuário!</p>
+    <p class="lead">Você está prestes a fazer parte da mais nova comunidade de participação social da Web. Neste momento iremos iniciar seu processo de cadastro.</p>
+    <p class="lead">É muito simples, basta você seguir as estapas e em poucos momentos você poderá usufruir das funcionalidades desta plataforma.</p>
+</div>
+-->
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Progresso de Cadastro:</h2>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                <div id="valorRegistro"></div>
+            </div>
+        </div>
+
+        <p>@Ajax.ActionLink("Começar >>", "_AddPessoaView", null, new AjaxOptions()
+           {
+               HttpMethod = "POST",
+               LoadingElementId = "divProgress",
+               UpdateTargetId = "addPessoa",
+               OnSuccess = "OnSuccess",
+               InsertionMode = InsertionMode.Replace
+           }, new Dictionary<string, object>() {{"class", "btn btn-primary"}, {"id", "btnComecar"}})
+        </p>
+
+        <div id="divProgress3" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+            <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")" /> <strong>Carregando...</strong>
+        </div>
+    </div>
+    <div class="col-md-4" id="addPessoa">
+        <div id="divProgress" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+            <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")" /> <strong>Carregando...</strong>
+        </div>    
+    </div>
+    <div class="col-md-4" id="addUsuario">
+        <div id="divProgress2" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+            <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")" /> <strong>Carregando...</strong>
+        </div> 
+    </div>
+</div>

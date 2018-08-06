@@ -1,0 +1,46 @@
+﻿@model Ouvidoria_Social_DataAccess.Usuario
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title">Autenticação Ouvidoria Social</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Logar", "Autenticacao", FormMethod.Post))
+                {
+                    <div class="form-group text-center">
+                        @Html.LabelFor(l => l.Login)<br />
+                        @Html.TextBoxFor(l => l.Login, new Dictionary<string, object>() { { "autofocus", "autofocus" }, { "maxlenght", 100 }, { "size", 90 }, { "placeholder", "Login ou E-mail" }, { "class", "form-control text-center center-block" } })<br />
+
+                        @Html.LabelFor(l => l.Senha)<br />
+                        @Html.PasswordFor(l => l.Senha, new Dictionary<string, object>() { { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control text-center center-block" } })<br />
+
+                        <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon glyphicon-user"></i> Entrar</button>
+                    </div>
+                }
+            </div>
+            @if (ViewBag.Error != null)
+            {
+                <div class="panel-footer text-center">
+                    <h3 class="panel-title">@ViewBag.Error</h3>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title">Cadastre-se</h3>
+            </div>
+            <div class="panel-body text-center">
+                Ainda não se cadastrou em nosso portal? Cadastre-se agora mesmo! É Totalmente de Graça...<br /><br />
+                @Html.ActionLink("Cadastre-se Agora!", "Cadastrar", "Autenticacao", new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+</div>

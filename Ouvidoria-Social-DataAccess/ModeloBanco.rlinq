@@ -1,0 +1,1474 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DomainModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="2.0.0.0" name="ModeloBanco" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" xmlns="http://www.telerik.com/ORM">
+  <orm:orm name="ModeloBanco" backend="mysql" xmlns:orm="http://tempuri.org/ORM">
+    <orm:namespace name="Ouvidoria_Social_DataAccess" default="true">
+      <orm:class name="Usuario" uniqueId="83a45c12-9f92-4b4d-8858-9b626e6a138d">
+        <orm:table name="usuario" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="e93f187e-4bf7-454e-8a80-41fae9917fcd" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_login" property="Login" behavior="readwrite" uniqueId="83f094f1-e5ef-49b2-a5f9-6f2e19d6c3ab" type="System.String">
+          <orm:column name="login" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_senha" property="Senha" behavior="readwrite" uniqueId="5c114044-0f17-4c36-a2ef-29199f7e1140" type="System.String">
+          <orm:column name="senha" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="dbec439b-4d32-4023-96c4-416f8dbdfd09" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_gamify" property="Gamify" behavior="readwrite" uniqueId="00f71399-d597-47e6-829a-bacb1e0f8b7f" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="gamify" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="debe4235-5f81-47cc-ab76-90050bf44685" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="60eea38b-874f-4bb0-abd8-95c3864836da" association-name="UsuarioHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_usuario_pessoa" delete-action="cascade" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_log_acessos" property="Log_acessos" behavior="readwrite" uniqueId="bd00031c-4a9d-4464-8a04-652ee1d2b77b" type="Ouvidoria_Social_DataAccess.Log_acesso">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Log_acesso" inverse-field="_usuario" order-by="" uniqueId="f5c52097-f2e9-4d79-9ee0-1431e44fb873" />
+        </orm:field>
+        <orm:index name="fk_usuario_permissao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Uf" uniqueId="b7d371fb-b317-4349-ad33-93f77e5223ef">
+        <orm:table name="uf" />
+        <orm:identity>
+          <orm:single-field field-name="_uf1" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_uf1" property="Uf1" behavior="readwrite" uniqueId="97c29364-fd76-4c08-87d5-5b2d97b2cb6a" type="System.String">
+          <orm:column name="uf" sql-type="nvarchar" nullable="false" length="2" scale="0" primary-key="true" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_nome" property="Nome" behavior="readwrite" uniqueId="bef49000-2ef7-4079-86b2-087660f89339" type="System.String">
+          <orm:column name="nome" sql-type="nvarchar" nullable="true" length="20" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_cidades" property="Cidades" behavior="readwrite" uniqueId="99f1044a-9f62-43b6-9677-ad07b6b442db" type="Ouvidoria_Social_DataAccess.Cidade">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Cidade" inverse-field="_uf1" order-by="" uniqueId="5cd4a13c-1954-4cac-8a25-854f84a48df2" />
+        </orm:field>
+      </orm:class>
+      <orm:class name="Pessoa" uniqueId="8e92d5bf-bb85-415f-a46f-4ed4fd39c780">
+        <orm:table name="pessoa" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="7ad2a5b6-11a0-4bd9-aad8-6ac7112b2d81" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_nome" property="Nome" behavior="readwrite" uniqueId="d8516dd1-312b-4ce0-8b69-b19a979f7093" type="System.String">
+          <orm:column name="nome" sql-type="nvarchar" nullable="false" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_apelido" property="Apelido" behavior="readwrite" uniqueId="ebb11ca7-e013-424d-98b3-16e18761d2c2" type="System.String">
+          <orm:column name="apelido" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_data_nascimento" property="Data_nascimento" behavior="readwrite" uniqueId="8e8fde45-0693-4818-b9ce-7599c6dcae70" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="data_nascimento" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        </orm:field>
+        <orm:field name="_email" property="Email" behavior="readwrite" uniqueId="60d24118-eb26-4209-bfa5-b65ec6f596a6" type="System.String">
+          <orm:column name="email" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_telefone" property="Telefone" behavior="readwrite" uniqueId="7f905be1-dad0-4913-90dc-d51a94d61eac" type="System.String">
+          <orm:column name="telefone" sql-type="nvarchar" nullable="true" length="11" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_descricao" property="Descricao" behavior="readwrite" uniqueId="40fe33c2-3815-482b-95fd-10339119c985" type="System.String">
+          <orm:column name="descricao" sql-type="nvarchar" nullable="true" length="500" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_avatar" property="Avatar" behavior="readwrite" uniqueId="78336526-113c-4782-8e44-6bb575bef8a3" type="System.String">
+          <orm:column name="avatar" sql-type="nvarchar" nullable="true" length="500" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_tipo" property="Tipo" behavior="readwrite" uniqueId="4277f952-60c0-4372-986c-49d8b30efd01" type="System.Nullable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="tipo" sql-type="nvarchar" nullable="true" length="1" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_cidade" property="Id_cidade" behavior="readwrite" uniqueId="89a192a8-51ba-41c3-9b98-273e5b95e3b1" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_isAtivo" property="IsAtivo" behavior="readwrite" uniqueId="a349b8a1-5be8-487f-8a5e-11b5a76da1b3" type="System.Nullable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="isAtivo" sql-type="nvarchar" nullable="true" length="1" scale="0" has-default-value="true" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_instituicao" property="Id_instituicao" behavior="readwrite" uniqueId="c1ddc80b-e789-4356-adc4-d909bc4127ef" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_instituicao" property="Instituicao" behavior="readwrite" uniqueId="e2fcc724-6ef4-40f2-8cab-7a026b0bf313" type="Ouvidoria_Social_DataAccess.Instituicao">
+          <orm:reference uniqueId="01910afe-23f3-457c-9875-690e75ff214e" association-name="PessoaHasInstituicao">
+            <orm:sharedfield name="_id_instituicao" target-class="Ouvidoria_Social_DataAccess.Instituicao" target-field="_id" />
+            <orm:constraint name="fk_pessoa_instituicao" delete-action="cascade" destination-table="instituicao" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_cidade" property="Cidade" behavior="readwrite" uniqueId="d919b5f1-abda-48c1-ac82-bb6a232c7fbd" type="Ouvidoria_Social_DataAccess.Cidade">
+          <orm:reference uniqueId="b3895773-90d4-4276-9c94-4655843c4409" association-name="PessoaHasCidade">
+            <orm:sharedfield name="_id_cidade" target-class="Ouvidoria_Social_DataAccess.Cidade" target-field="_id" />
+            <orm:constraint name="fk_pessoa_cidade" delete-action="setnull" destination-table="cidade" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_usuarios" property="Usuarios" behavior="readwrite" uniqueId="28f82f81-9c45-43ee-87c6-eb30f6d25d78" type="Ouvidoria_Social_DataAccess.Usuario">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Usuario" inverse-field="_pessoa" order-by="" uniqueId="60eea38b-874f-4bb0-abd8-95c3864836da" />
+        </orm:field>
+        <orm:field name="_reclamacaos" property="Reclamacaos" behavior="readwrite" uniqueId="9245baf9-9ef1-4b8c-bbf0-4e5e7f1c4a07" type="Ouvidoria_Social_DataAccess.Reclamacao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Reclamacao" inverse-field="_pessoa" order-by="" uniqueId="2c122109-00d1-4e5d-8f3e-bc003ca5c9a9" />
+        </orm:field>
+        <orm:field name="_comentarios" property="Comentarios" behavior="readwrite" uniqueId="a0cd3b9c-620c-4af6-8427-543353cf7a34" type="Ouvidoria_Social_DataAccess.Comentario">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Comentario" inverse-field="_pessoa" order-by="" uniqueId="3ec39d52-ab79-4855-a459-bc887b2cb4c8" />
+        </orm:field>
+        <orm:field name="_log_participapaos" property="Log_participapaos" behavior="readwrite" uniqueId="fe721cde-25b4-402e-bb2b-46f39abe9252" type="Ouvidoria_Social_DataAccess.Log_participapao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Log_participapao" inverse-field="_pessoa" order-by="" uniqueId="cc7b8584-12a0-4541-8185-fc52d7a700f0" />
+        </orm:field>
+        <orm:field name="_pessoa_nivel_pontos" property="Pessoa_nivel_pontos" behavior="readwrite" uniqueId="054d5820-bfa4-45ab-98a1-ad99ca08b01e" type="Ouvidoria_Social_DataAccess.Pessoa_nivel_ponto">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Pessoa_nivel_ponto" inverse-field="_pessoa" order-by="" uniqueId="53c9a45e-c93f-4986-a440-147ad86f2503" />
+        </orm:field>
+        <orm:field name="_log_pontos_pessoas" property="Log_pontos_pessoas" behavior="readwrite" uniqueId="e2c83121-ea5e-461b-8431-2ded286742ae" type="Ouvidoria_Social_DataAccess.Log_pontos_pessoa">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Log_pontos_pessoa" inverse-field="_pessoa" order-by="" uniqueId="6340f5c7-91fe-4d38-8eaf-7ece1738bc4d" />
+        </orm:field>
+        <orm:field name="_pessoa_desafios" property="Pessoa_desafios" behavior="readwrite" uniqueId="a8aa8f4a-2f1e-4240-819f-90841dbd0ba5" type="Ouvidoria_Social_DataAccess.Pessoa_desafio">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Pessoa_desafio" inverse-field="_pessoa" order-by="" uniqueId="4cc0eb79-0969-458d-b7a7-bd233fb6ef1f" />
+        </orm:field>
+        <orm:index name="fk_pessoa_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_pessoa_cidade_idx">
+          <orm:columnMapping>
+            <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Instituicao" uniqueId="5fff46a7-68dc-4d5b-b542-321c98bdc66a">
+        <orm:table name="instituicao" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="73f1a280-472f-49b9-9b14-65c49ba64885" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_nome" property="Nome" behavior="readwrite" uniqueId="cf05dad7-1af8-4ec0-8bfe-a6f755755c89" type="System.String">
+          <orm:column name="nome" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_nome_fantasia" property="Nome_fantasia" behavior="readwrite" uniqueId="971c489f-1aea-44a5-b845-df9890760b52" type="System.String">
+          <orm:column name="nome_fantasia" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_telefone" property="Telefone" behavior="readwrite" uniqueId="7ca0b32f-a165-48eb-b1d9-850d7647b90f" type="System.String">
+          <orm:column name="telefone" sql-type="nvarchar" nullable="true" length="11" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_email" property="Email" behavior="readwrite" uniqueId="51bbe854-773a-46de-999b-6b6206447d12" type="System.String">
+          <orm:column name="email" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_cidade" property="Id_cidade" behavior="readwrite" uniqueId="f373d8d9-5616-41d9-807d-9cf2ea15ad59" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_contato" property="Contato" behavior="readwrite" uniqueId="d1a162fd-92e0-4be6-95d8-9d5d9d1757fb" type="System.String">
+          <orm:column name="contato" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_cidade" property="Cidade" behavior="readwrite" uniqueId="0864edee-7589-4338-95e6-8e5ae180cdbe" type="Ouvidoria_Social_DataAccess.Cidade">
+          <orm:reference uniqueId="87cb0c06-9e9c-4d41-8058-7770d806a51a" association-name="InstituicaoHasCidade">
+            <orm:sharedfield name="_id_cidade" target-class="Ouvidoria_Social_DataAccess.Cidade" target-field="_id" />
+            <orm:constraint name="fk_intituicao_cidae" delete-action="setnull" destination-table="cidade" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_pessoas" property="Pessoas" behavior="readwrite" uniqueId="faa96ec9-f680-455c-99ed-bf5ec36f9e3d" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Pessoa" inverse-field="_instituicao" order-by="" uniqueId="01910afe-23f3-457c-9875-690e75ff214e" />
+        </orm:field>
+        <orm:field name="_reclamacaos" property="Reclamacaos" behavior="readwrite" uniqueId="c141918c-b889-47d3-bd35-64fdfc279ab0" type="Ouvidoria_Social_DataAccess.Reclamacao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Reclamacao" inverse-field="_instituicao" order-by="" uniqueId="7521bfa9-712b-48a0-bdfc-7232cd69d602" />
+        </orm:field>
+        <orm:field name="_departamentos" property="Departamentos" behavior="readwrite" uniqueId="233f4e6e-8c34-4e1d-8b36-1f986210b7fa" type="Ouvidoria_Social_DataAccess.Departamento">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Departamento" inverse-field="_instituicao" order-by="" uniqueId="22d26be6-8afe-48da-a969-6cbe0e41fead" />
+        </orm:field>
+        <orm:index name="fk_intituicao_cidae_idx">
+          <orm:columnMapping>
+            <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Cidade" uniqueId="0617d4cd-ddbd-43d8-85e3-d4e0a6211395">
+        <orm:table name="cidade" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="0bc061c7-d309-4aeb-9e45-26b18bbc4fe1" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_cidade1" property="Cidade1" behavior="readwrite" uniqueId="73d53269-abfb-439c-9ade-9b8fa45c4755" type="System.String">
+          <orm:column name="cidade" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_uf" property="Uf" behavior="readwrite" uniqueId="e72c0473-3486-44b7-a0cf-c9534cc68002" type="System.String">
+          <orm:column name="uf" sql-type="nvarchar" nullable="true" length="2" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_uf1" property="Uf1" behavior="readwrite" uniqueId="b0ad6763-ace5-4919-9302-567fcdbe2f24" type="Ouvidoria_Social_DataAccess.Uf">
+          <orm:reference uniqueId="5cd4a13c-1954-4cac-8a25-854f84a48df2" association-name="CidadeHasUf">
+            <orm:sharedfield name="_uf" target-class="Ouvidoria_Social_DataAccess.Uf" target-field="_uf1" />
+            <orm:constraint name="fk_cidade_uf" delete-action="cascade" destination-table="uf" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_pessoas" property="Pessoas" behavior="readwrite" uniqueId="e28dbe9b-be3e-41f7-9271-fa411300caf2" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Pessoa" inverse-field="_cidade" order-by="" uniqueId="b3895773-90d4-4276-9c94-4655843c4409" />
+        </orm:field>
+        <orm:field name="_instituicaos" property="Instituicaos" behavior="readwrite" uniqueId="67112ca0-81d7-4e3a-9c66-068c0fa9c75c" type="Ouvidoria_Social_DataAccess.Instituicao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Instituicao" inverse-field="_cidade" order-by="" uniqueId="87cb0c06-9e9c-4d41-8058-7770d806a51a" />
+        </orm:field>
+        <orm:index name="fk_cidade_uf_idx">
+          <orm:columnMapping>
+            <orm:column name="uf" sql-type="nvarchar" nullable="true" length="2" scale="0" ado-type="UnicodeStringVariableLength" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Reclamacao" uniqueId="64a501fe-7dfb-4ad6-bd32-317770c6fe78">
+        <orm:table name="reclamacao" />
+        <orm:identity>
+          <orm:key-generator name="autoinc" />
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="e83b5e63-e6ed-4e0c-ac49-65e87ebd9d08" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_descricao" property="Descricao" behavior="readwrite" uniqueId="185c18f7-a72e-469c-846c-3cd2e6a612a8" type="System.String">
+          <orm:column name="Descricao" sql-type="longtext" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        </orm:field>
+        <orm:field name="_titulo" property="Titulo" behavior="readwrite" uniqueId="a07b5e8e-8d9b-4f8a-b3a3-a90d268ef66a" type="System.String">
+          <orm:column name="Titulo" sql-type="nvarchar" nullable="true" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_isSolucionado" property="IsSolucionado" behavior="readwrite" uniqueId="3e19f191-2cca-45ae-9a1e-5402a3ec3d87" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="IsSolucionado" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_departamento" property="Departamento" behavior="readwrite" uniqueId="eb987d8d-fef2-4baf-abed-719c923906d8" type="System.String">
+          <orm:column name="Departamento" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_instituicao" property="Id_instituicao" behavior="readwrite" uniqueId="56c1e8fb-cba2-40dd-8390-8c271ea9766c" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="108bcffb-5daa-4a6d-8649-8462ea4750c8" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_likes" property="Likes" behavior="readwrite" uniqueId="b46fd6d0-dd60-4306-892b-02982ceeafe2" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="likes" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_deslikes" property="Deslikes" behavior="readwrite" uniqueId="aefe6227-74c6-40ff-b55b-d81beeb67086" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="deslikes" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_anexo" property="Anexo" behavior="readwrite" uniqueId="684ae0b4-8229-4ed3-b3a0-0bc0db3322fa" type="System.String">
+          <orm:column name="anexo" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_dataHora" property="DataHora" behavior="readwrite" uniqueId="f61b85ce-ee09-4e2a-8ead-b037073f034d" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="dataHora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="_isAtivo" property="IsAtivo" behavior="readwrite" uniqueId="a90433b2-e2ae-4520-8a15-8cac2a31c1ad" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="isAtivo" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="c054bb5b-fead-45cb-99a0-7286e59c9b2e" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="2c122109-00d1-4e5d-8f3e-bc003ca5c9a9" association-name="ReclamacaoHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_reclamacao_pessoa" delete-action="setnull" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_instituicao" property="Instituicao" behavior="readwrite" uniqueId="5cf4113d-5ddb-437a-a2c0-f40d39528b9c" type="Ouvidoria_Social_DataAccess.Instituicao">
+          <orm:reference uniqueId="7521bfa9-712b-48a0-bdfc-7232cd69d602" association-name="ReclamacaoHasInstituicao">
+            <orm:sharedfield name="_id_instituicao" target-class="Ouvidoria_Social_DataAccess.Instituicao" target-field="_id" />
+            <orm:constraint name="fk_reclamacao_instituicao" delete-action="setnull" destination-table="instituicao" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_comentarios" property="Comentarios" behavior="readwrite" uniqueId="4e1a1c50-131d-47aa-afe3-6139c8ae70cd" type="Ouvidoria_Social_DataAccess.Comentario">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Comentario" inverse-field="_reclamacao" order-by="" uniqueId="40299501-298b-4d16-8d12-4d4fddf6835c" />
+        </orm:field>
+        <orm:field name="_log_participapaos" property="Log_participapaos" behavior="readwrite" uniqueId="402dddbc-657a-44d6-855b-622abf3ea52b" type="Ouvidoria_Social_DataAccess.Log_participapao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Log_participapao" inverse-field="_reclamacao" order-by="" uniqueId="ace1ab18-1e6f-496a-887d-dffc854d7c0b" />
+        </orm:field>
+        <orm:index name="fk_reclamacao_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_reclamacao_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Log_acesso" uniqueId="c48c967f-8954-4252-b1fb-7f340173830f">
+        <orm:table name="log_acesso" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="f388b2b2-ab0d-4d17-a915-2a27240a719b" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_datahora" property="Datahora" behavior="readwrite" uniqueId="975ec6ce-79c5-4470-8058-e8b20d140efb" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="datahora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="_id_usuario" property="Id_usuario" behavior="readwrite" uniqueId="67be0180-59d3-4b18-81c5-9a9696e5185d" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_usuario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_usuario" property="Usuario" behavior="readwrite" uniqueId="ac1f9f8e-19a9-499f-861c-a43c3a4ff735" type="Ouvidoria_Social_DataAccess.Usuario">
+          <orm:reference uniqueId="f5c52097-f2e9-4d79-9ee0-1431e44fb873" association-name="Log_acessoHasUsuario">
+            <orm:sharedfield name="_id_usuario" target-class="Ouvidoria_Social_DataAccess.Usuario" target-field="_id" />
+            <orm:constraint name="fk_logacesso_usuario" delete-action="cascade" destination-table="usuario" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_logacesso_usuario_idx">
+          <orm:columnMapping>
+            <orm:column name="id_usuario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Comentario" uniqueId="f9a4eef5-b0d1-4067-956b-2293da0eed5e">
+        <orm:table name="comentario" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="99e2fa3a-b3e5-474b-a556-b218287bff90" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_descricao" property="Descricao" behavior="readwrite" uniqueId="07841cfa-8163-4ed1-969f-089f0cfe4293" type="System.String">
+          <orm:column name="descricao" sql-type="longtext" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        </orm:field>
+        <orm:field name="_likes" property="Likes" behavior="readwrite" uniqueId="2ebe1e18-1661-4ed0-821c-c32d9897e0d0" type="System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="likes" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_deslikes" property="Deslikes" behavior="readwrite" uniqueId="0400bd7a-bfab-470b-99e9-83a4f0177e88" type="System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="deslikes" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="6578b15f-8fae-4c0c-abfb-6e3bc2c98885" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_reclamacao" property="Id_reclamacao" behavior="readwrite" uniqueId="84639e07-3a68-43b1-a1a9-28031ccd3778" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_dataComentario" property="DataComentario" behavior="readwrite" uniqueId="079e4331-b104-4a0f-b4a4-b3fecd96a869" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="dataComentario" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        </orm:field>
+        <orm:field name="_isSolucao" property="IsSolucao" behavior="readwrite" uniqueId="f82dd4f3-81bb-4a8e-b85f-7cce81f1ae86" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="isSolucao" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_isSolucaoFinal" property="IsSolucaoFinal" behavior="readwrite" uniqueId="95a3bc71-4189-44ae-8941-49df1a3174db" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="isSolucaoFinal" sql-type="bit" nullable="true" length="0" scale="0" has-default-value="true" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_anexo" property="Anexo" behavior="readwrite" uniqueId="d74c71d9-fcbb-49ba-a198-20b02a3ec994" type="System.String">
+          <orm:column name="anexo" sql-type="nvarchar" nullable="true" length="250" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_reclamacao" property="Reclamacao" behavior="readwrite" uniqueId="39fd0125-cc09-4f43-9912-744409a5c804" type="Ouvidoria_Social_DataAccess.Reclamacao">
+          <orm:reference uniqueId="40299501-298b-4d16-8d12-4d4fddf6835c" association-name="ComentarioHasReclamacao">
+            <orm:sharedfield name="_id_reclamacao" target-class="Ouvidoria_Social_DataAccess.Reclamacao" target-field="_id" />
+            <orm:constraint name="fk_comentario_reclamacao" delete-action="cascade" destination-table="reclamacao" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="5d7418f1-0cc5-4202-8b28-68ad74f468ae" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="3ec39d52-ab79-4855-a459-bc887b2cb4c8" association-name="ComentarioHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_comentario_pessoa" delete-action="setnull" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_log_participapaos" property="Log_participapaos" behavior="readwrite" uniqueId="3adf77ac-ed42-4199-b809-08124184305d" type="Ouvidoria_Social_DataAccess.Log_participapao">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Log_participapao" inverse-field="_comentario" order-by="" uniqueId="934fafb6-7e2e-4819-9419-e9f74fb4095f" />
+        </orm:field>
+        <orm:index name="fk_comentario_reclamacao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_comentario_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Log_participapao" uniqueId="1917e462-3439-4089-8ef6-5adbecf79a9e">
+        <orm:table name="log_participapao" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="1c794eec-9f0e-4310-8d1f-6dda5839dffc" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_datahora" property="Datahora" behavior="readwrite" uniqueId="67849a24-aa54-4454-805b-25afe832c61b" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="datahora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="9e735363-f18d-4e5e-9d17-ffc1a3d826c1" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_reclamacao" property="Id_reclamacao" behavior="readwrite" uniqueId="e482cfec-b12c-41ee-82c1-06c45bc7f9d0" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_acesso" property="Acesso" behavior="readwrite" uniqueId="9e033ffb-0fd2-41ce-8a06-4c56ac7462e2" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="acesso" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_tipo" property="Tipo" behavior="readwrite" uniqueId="790622aa-7400-41e4-9d86-f9ea919fe1fb" type="System.String">
+          <orm:column name="tipo" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_visto" property="Visto" behavior="readwrite" uniqueId="e9d792a9-ab8a-449d-b329-4ebee57ec5a3" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="visto" sql-type="bit" nullable="true" length="0" scale="0" has-default-value="true" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_id_comentario" property="Id_comentario" behavior="readwrite" uniqueId="b5d4c5c0-3b48-4053-9744-d24913863059" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_comentario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_curtidor" property="Id_curtidor" behavior="readwrite" uniqueId="676d4d96-7f90-4168-b078-a6a824f671aa" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_curtidor" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_reclamacao" property="Reclamacao" behavior="readwrite" uniqueId="ec07dd69-2647-4be5-96b5-66811d4d65c5" type="Ouvidoria_Social_DataAccess.Reclamacao">
+          <orm:reference uniqueId="ace1ab18-1e6f-496a-887d-dffc854d7c0b" association-name="Log_participapaoHasReclamacao">
+            <orm:sharedfield name="_id_reclamacao" target-class="Ouvidoria_Social_DataAccess.Reclamacao" target-field="_id" />
+            <orm:constraint name="fk_logpart_reclamacao" delete-action="setnull" destination-table="reclamacao" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="d387daa0-d026-40b4-bc63-17c1fb682a1a" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="cc7b8584-12a0-4541-8185-fc52d7a700f0" association-name="Log_participapaoHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_logpart_pessoa" delete-action="setnull" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_comentario" property="Comentario" behavior="readwrite" uniqueId="b98add4b-fb3f-420e-95e4-5c66963316ea" type="Ouvidoria_Social_DataAccess.Comentario">
+          <orm:reference uniqueId="934fafb6-7e2e-4819-9419-e9f74fb4095f" association-name="Log_participapaoHasComentario">
+            <orm:sharedfield name="_id_comentario" target-class="Ouvidoria_Social_DataAccess.Comentario" target-field="_id" />
+            <orm:constraint name="fk_logpart_comentario" delete-action="setnull" destination-table="comentario" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_logpart_reclamacao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_logpart_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_logpart_comentario_idx">
+          <orm:columnMapping>
+            <orm:column name="id_comentario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Pessoa_nivel_ponto" uniqueId="4c59486e-9513-4271-9104-04354f8ad75d">
+        <orm:table name="pessoa_nivel_pontos" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="4b411a7d-1fa2-478e-b174-04436a4f501d" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="59ca59d9-f4fb-41fb-b2c8-aeb2d0a632f1" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_nivel" property="Nivel" behavior="readwrite" uniqueId="8f1e112f-35fc-438c-ac95-e264db08eb7f" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="nivel" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_pontos" property="Pontos" behavior="readwrite" uniqueId="df95cbd4-4df4-4b43-9f76-ebc9406dbeac" type="System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="pontos" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="3848c23e-c57d-48ee-82ca-24c9e0442a82" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="53c9a45e-c93f-4986-a440-147ad86f2503" association-name="Pessoa_nivel_pontoHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_nivel_pessoa" delete-action="cascade" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_nivel_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Log_pontos_pessoa" uniqueId="46a8df9e-b0c6-4cfc-9202-4ee78add929a">
+        <orm:table name="log_pontos_pessoa" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="439d4bd9-d3bb-40f2-b2eb-741e77dec5dc" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_id_pessoa" property="Id_pessoa" behavior="readwrite" uniqueId="7828960b-f055-4b9a-aa34-62fe9a6e876e" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_pontos" property="Pontos" behavior="readwrite" uniqueId="f3fa0e01-b6e4-45a9-ad7e-d558978907bd" type="System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="pontos" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        </orm:field>
+        <orm:field name="_descricao" property="Descricao" behavior="readwrite" uniqueId="ef40cfaa-32ce-414c-947f-cbdaf2bb76a5" type="System.String">
+          <orm:column name="descricao" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_data" property="Data" behavior="readwrite" uniqueId="0b061ca7-8b47-497b-8b99-ca3dfbb4ac2e" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="data" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        </orm:field>
+        <orm:field name="_tipoPonto" property="TipoPonto" behavior="readwrite" uniqueId="f052c18e-ff02-46f7-8928-b2a6e3ee342c" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="tipoPonto" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="08cb9cff-8185-4872-856e-a8db0be96d54" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="6340f5c7-91fe-4d38-8eaf-7ece1738bc4d" association-name="Log_pontos_pessoaHasPessoa">
+            <orm:sharedfield name="_id_pessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_logPonto_pessoa" delete-action="cascade" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_logPonto_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Departamento" uniqueId="52ba1e50-e620-4e34-ae2f-79d27ee73fbd">
+        <orm:table name="departamento" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="e04670a7-c3ba-4fdc-9420-415060eee3ce" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_nome" property="Nome" behavior="readwrite" uniqueId="827f111c-72d6-415e-bf06-58d858dc33ad" type="System.String">
+          <orm:column name="nome" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_id_instituicao" property="Id_instituicao" behavior="readwrite" uniqueId="5cdbd20b-e2c3-4646-a821-3628d72714c7" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_instituicao" property="Instituicao" behavior="readwrite" uniqueId="8e5819bb-e6a0-4eb2-8f8b-377c6761be0e" type="Ouvidoria_Social_DataAccess.Instituicao">
+          <orm:reference uniqueId="22d26be6-8afe-48da-a969-6cbe0e41fead" association-name="DepartamentoHasInstituicao">
+            <orm:sharedfield name="_id_instituicao" target-class="Ouvidoria_Social_DataAccess.Instituicao" target-field="_id" />
+            <orm:constraint name="fk_departamento_instituicao" delete-action="cascade" destination-table="instituicao" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_departamento_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Pessoa_desafio" uniqueId="4425e242-9472-4362-83e7-463cbde72cc5">
+        <orm:table name="pessoa_desafio" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="4e19c649-e185-479d-b6f9-69d01fef201c" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_idPessoa" property="IdPessoa" behavior="readwrite" uniqueId="236d3011-f5aa-4b1c-be8d-5447386da9c1" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="idPessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_idDesafio" property="IdDesafio" behavior="readwrite" uniqueId="ae242477-def9-4118-a24d-3b130c0abcf2" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="idDesafio" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_ganho" property="Ganho" behavior="readwrite" uniqueId="46a18411-465a-49cb-a9a0-c93438c2c92c" type="System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="Ganho" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        </orm:field>
+        <orm:field name="_data" property="Data" behavior="readwrite" uniqueId="d70f6405-d698-4604-a6be-c30f4d827a71" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="Data" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        </orm:field>
+        <orm:field name="_hora" property="Hora" behavior="readwrite" uniqueId="5a165be8-92f4-4a99-86f1-7802f2f8a962" type="System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="Hora" sql-type="time" nullable="true" length="0" scale="0" ado-type="Time" />
+        </orm:field>
+        <orm:field name="_vezesGanhas" property="VezesGanhas" behavior="readwrite" uniqueId="d588616b-9010-4715-837e-692d8deb5319" type="System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]">
+          <orm:column name="VezesGanhas" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_pessoa" property="Pessoa" behavior="readwrite" uniqueId="d07c2d48-8fab-4630-b61b-0d973521ff5a" type="Ouvidoria_Social_DataAccess.Pessoa">
+          <orm:reference uniqueId="4cc0eb79-0969-458d-b7a7-bd233fb6ef1f" association-name="Pessoa_desafioHasPessoa">
+            <orm:sharedfield name="_idPessoa" target-class="Ouvidoria_Social_DataAccess.Pessoa" target-field="_id" />
+            <orm:constraint name="fk_pessoa_desafiopessoa" delete-action="cascade" destination-table="pessoa" />
+          </orm:reference>
+        </orm:field>
+        <orm:field name="_desafio" property="Desafio" behavior="readwrite" uniqueId="885661af-e6fb-4c31-86b2-ce4e61d5d457" type="Ouvidoria_Social_DataAccess.Desafio">
+          <orm:reference uniqueId="919a85da-f83e-4b0f-9cfc-d40fe427f707" association-name="Pessoa_desafioHasDesafio">
+            <orm:sharedfield name="_idDesafio" target-class="Ouvidoria_Social_DataAccess.Desafio" target-field="_id" />
+            <orm:constraint name="fk_desafio_desafiopessoa" delete-action="cascade" destination-table="desafios" />
+          </orm:reference>
+        </orm:field>
+        <orm:index name="fk_pessoa_desafiopessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="idPessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_desafio_desafiopessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="idDesafio" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+      </orm:class>
+      <orm:class name="Desafio" uniqueId="b77f80a3-9ce7-42d6-a995-1d2622804fd9">
+        <orm:table name="desafios" />
+        <orm:identity>
+          <orm:key-generator name="autoinc">
+            <orm:key-generator-member property-name="Id" />
+          </orm:key-generator>
+          <orm:single-field field-name="_id" />
+        </orm:identity>
+        <orm:concurrency strategy="changed" />
+        <orm:field name="_id" property="Id" behavior="readwrite" uniqueId="2cd0b462-e9e8-47fc-a7f7-cf72366d3444" type="System.Int32">
+          <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        </orm:field>
+        <orm:field name="_descricao" property="Descricao" behavior="readwrite" uniqueId="09c9e0ed-2411-4d28-a698-2faea5dbb33e" type="System.String">
+          <orm:column name="Descricao" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_titulo" property="Titulo" behavior="readwrite" uniqueId="21937af7-993d-47d9-b211-0c529faa9566" type="System.String">
+          <orm:column name="Titulo" sql-type="nvarchar" nullable="true" length="30" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:field>
+        <orm:field name="_pessoa_desafios" property="Pessoa_desafios" behavior="readwrite" uniqueId="03e5adcb-4e52-4120-aac2-e16c23ce905b" type="Ouvidoria_Social_DataAccess.Pessoa_desafio">
+          <orm:collection element-class="Ouvidoria_Social_DataAccess.Pessoa_desafio" inverse-field="_desafio" order-by="" uniqueId="919a85da-f83e-4b0f-9cfc-d40fe427f707" />
+        </orm:field>
+      </orm:class>
+    </orm:namespace>
+    <orm:schema schema="">
+      <orm:table name="usuario">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="login" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="senha" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="gamify" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:index name="fk_usuario_permissao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_usuario_pessoa" delete-action="cascade" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="uf">
+        <orm:column name="uf" sql-type="nvarchar" nullable="false" length="2" scale="0" primary-key="true" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="nome" sql-type="nvarchar" nullable="true" length="20" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+      <orm:table name="pessoa">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="nome" sql-type="nvarchar" nullable="false" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="apelido" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="data_nascimento" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        <orm:column name="email" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="telefone" sql-type="nvarchar" nullable="true" length="11" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="descricao" sql-type="nvarchar" nullable="true" length="500" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="avatar" sql-type="nvarchar" nullable="true" length="500" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="tipo" sql-type="nvarchar" nullable="true" length="1" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="isAtivo" sql-type="nvarchar" nullable="true" length="1" scale="0" has-default-value="true" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_pessoa_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_pessoa_cidade_idx">
+          <orm:columnMapping>
+            <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_pessoa_instituicao" delete-action="cascade" destination-table="instituicao">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_pessoa_cidade" delete-action="setnull" destination-table="cidade">
+          <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="instituicao">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="nome" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="nome_fantasia" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="telefone" sql-type="nvarchar" nullable="true" length="11" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="email" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="contato" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:index name="fk_intituicao_cidae_idx">
+          <orm:columnMapping>
+            <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_intituicao_cidae" delete-action="setnull" destination-table="cidade">
+          <orm:column name="id_cidade" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="cidade">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="cidade" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="uf" sql-type="nvarchar" nullable="true" length="2" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:index name="fk_cidade_uf_idx">
+          <orm:columnMapping>
+            <orm:column name="uf" sql-type="nvarchar" nullable="true" length="2" scale="0" ado-type="UnicodeStringVariableLength" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_cidade_uf" delete-action="cascade" destination-table="uf">
+          <orm:column name="uf" sql-type="nvarchar" nullable="true" length="2" scale="0" ado-type="UnicodeStringVariableLength" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="reclamacao">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="Descricao" sql-type="longtext" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        <orm:column name="Titulo" sql-type="nvarchar" nullable="true" length="150" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="IsSolucionado" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:column name="Departamento" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="likes" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="deslikes" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="anexo" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="dataHora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        <orm:column name="isAtivo" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:index name="fk_reclamacao_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_reclamacao_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_reclamacao_pessoa" delete-action="setnull" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_reclamacao_instituicao" delete-action="setnull" destination-table="instituicao">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="log_acesso">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="datahora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        <orm:column name="id_usuario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_logacesso_usuario_idx">
+          <orm:columnMapping>
+            <orm:column name="id_usuario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_logacesso_usuario" delete-action="cascade" destination-table="usuario">
+          <orm:column name="id_usuario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="comentario">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="descricao" sql-type="longtext" nullable="true" length="0" scale="0" ado-type="UnicodeStringInfiniteLength" />
+        <orm:column name="likes" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        <orm:column name="deslikes" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="dataComentario" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        <orm:column name="isSolucao" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:column name="isSolucaoFinal" sql-type="bit" nullable="true" length="0" scale="0" has-default-value="true" ado-type="Bit" />
+        <orm:column name="anexo" sql-type="nvarchar" nullable="true" length="250" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:index name="fk_comentario_reclamacao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_comentario_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_comentario_reclamacao" delete-action="cascade" destination-table="reclamacao">
+          <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_comentario_pessoa" delete-action="setnull" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="log_participapao">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="datahora" sql-type="datetime" nullable="true" length="0" scale="0" ado-type="DateTime" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="acesso" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:column name="tipo" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="visto" sql-type="bit" nullable="true" length="0" scale="0" has-default-value="true" ado-type="Bit" />
+        <orm:column name="id_comentario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="id_curtidor" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_logpart_reclamacao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_logpart_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_logpart_comentario_idx">
+          <orm:columnMapping>
+            <orm:column name="id_comentario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_logpart_reclamacao" delete-action="setnull" destination-table="reclamacao">
+          <orm:column name="id_reclamacao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_logpart_pessoa" delete-action="setnull" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_logpart_comentario" delete-action="setnull" destination-table="comentario">
+          <orm:column name="id_comentario" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="pessoa_nivel_pontos">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="nivel" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="pontos" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        <orm:index name="fk_nivel_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_nivel_pessoa" delete-action="cascade" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="log_pontos_pessoa">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="pontos" sql-type="bigint" nullable="true" length="0" scale="0" ado-type="Int64" />
+        <orm:column name="descricao" sql-type="nvarchar" nullable="true" length="50" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="data" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        <orm:column name="tipoPonto" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_logPonto_pessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_logPonto_pessoa" delete-action="cascade" destination-table="pessoa">
+          <orm:column name="id_pessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="departamento">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="nome" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_departamento_instituicao_idx">
+          <orm:columnMapping>
+            <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_departamento_instituicao" delete-action="cascade" destination-table="instituicao">
+          <orm:column name="id_instituicao" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="pessoa_desafio">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="idPessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="idDesafio" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:column name="Ganho" sql-type="bit" nullable="true" length="0" scale="0" ado-type="Bit" />
+        <orm:column name="Data" sql-type="date" nullable="true" length="0" scale="0" ado-type="Date" />
+        <orm:column name="Hora" sql-type="time" nullable="true" length="0" scale="0" ado-type="Time" />
+        <orm:column name="VezesGanhas" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        <orm:index name="fk_pessoa_desafiopessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="idPessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:index name="fk_desafio_desafiopessoa_idx">
+          <orm:columnMapping>
+            <orm:column name="idDesafio" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+          </orm:columnMapping>
+        </orm:index>
+        <orm:constraint name="fk_pessoa_desafiopessoa" delete-action="cascade" destination-table="pessoa">
+          <orm:column name="idPessoa" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+        <orm:constraint name="fk_desafio_desafiopessoa" delete-action="cascade" destination-table="desafios">
+          <orm:column name="idDesafio" sql-type="integer" nullable="true" length="0" scale="0" ado-type="Int32" />
+        </orm:constraint>
+      </orm:table>
+      <orm:table name="desafios">
+        <orm:column name="id" sql-type="integer" nullable="false" length="0" scale="0" primary-key="true" backend-calculated="true" ado-type="Int32" />
+        <orm:column name="Descricao" sql-type="nvarchar" nullable="true" length="100" scale="0" ado-type="UnicodeStringVariableLength" />
+        <orm:column name="Titulo" sql-type="nvarchar" nullable="true" length="30" scale="0" ado-type="UnicodeStringVariableLength" />
+      </orm:table>
+    </orm:schema>
+    <orm:relational-naming-settings>
+      <orm:source-strategy>Property</orm:source-strategy>
+      <orm:remove-camel-case>False</orm:remove-camel-case>
+    </orm:relational-naming-settings>
+  </orm:orm>
+  <ModelSettings xmlns="">
+    <AppConfigConnectionPropertyName>Connection</AppConfigConnectionPropertyName>
+    <AppConfigConnectionString>persist security info=False;server=localhost;database=os_database;uid=root;pwd=admin</AppConfigConnectionString>
+    <NamingSettings>
+      <ClassRules>
+        <CaseMode>PascalCase</CaseMode>
+        <PluralizationMode>Singularize</PluralizationMode>
+      </ClassRules>
+      <FieldRules>
+        <AddPrefix>_</AddPrefix>
+        <CaseMode>CamelCase</CaseMode>
+      </FieldRules>
+      <PropertyRules>
+        <CaseMode>PascalCase</CaseMode>
+      </PropertyRules>
+      <NavigationPropertyRules />
+    </NamingSettings>
+    <CodeGenerationSettings>
+      <MappingDefinitionType>Xml</MappingDefinitionType>
+    </CodeGenerationSettings>
+    <SchemaUpdateSettings />
+    <BackendConfigurationSettings>
+      <BackendConfiguration>
+        <Backend>MySql</Backend>
+        <ProviderName>MySql.Data.MySqlClient</ProviderName>
+      </BackendConfiguration>
+    </BackendConfigurationSettings>
+  </ModelSettings>
+  <Types>
+    <DomainClass Id="83a45c12-9f92-4b4d-8858-9b626e6a138d" name="Usuario" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="e93f187e-4bf7-454e-8a80-41fae9917fcd" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="dbec439b-4d32-4023-96c4-416f8dbdfd09" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="83f094f1-e5ef-49b2-a5f9-6f2e19d6c3ab" name="Login" label="Login : String" kind="Persistent" fieldName="_login" />
+      <Property Id="5c114044-0f17-4c36-a2ef-29199f7e1140" name="Senha" label="Senha : String" kind="Persistent" fieldName="_senha" />
+      <Property Id="00f71399-d597-47e6-829a-bacb1e0f8b7f" name="Gamify" type="Boolean" label="Gamify : Boolean" nullable="true" kind="Persistent" fieldName="_gamify" />
+      <AssociationTargets>
+        <Association Id="60eea38b-874f-4bb0-abd8-95c3864836da" SourceMultiplicity="ZeroOne" name="UsuarioHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="e743946a-7b01-4c38-a11b-2f76ef742cec">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Usuarios" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="d27d6b5d-0e49-4134-b159-6d4ffbf138e3">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Usuario/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="767b43c5-161f-4848-b21a-d116a3fb0582">
+          <NavigationalProperty Id="debe4235-5f81-47cc-ab76-90050bf44685" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="931cc20f-6e93-46de-b6bb-704700b5ab06">
+          <NavigationalProperty Id="bd00031c-4a9d-4464-8a04-652ee1d2b77b" name="Log_acessos" type="IList&lt;Log_acesso&gt;" label="Log_acessos : IList&lt;Log_acesso&gt;" nullable="true" kind="Persistent" fieldName="_log_acessos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="b7d371fb-b317-4349-ad33-93f77e5223ef" name="Uf" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="97c29364-fd76-4c08-87d5-5b2d97b2cb6a" name="Uf1" label="Uf1 : String" kind="Persistent" identity="true" fieldName="_uf1" />
+      <Property Id="bef49000-2ef7-4079-86b2-087660f89339" name="Nome" label="Nome : String" kind="Persistent" fieldName="_nome" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="97e88c7a-5bc0-4c35-9dfe-8300f90777bd">
+          <NavigationalProperty Id="99f1044a-9f62-43b6-9677-ad07b6b442db" name="Cidades" type="IList&lt;Cidade&gt;" label="Cidades : IList&lt;Cidade&gt;" nullable="true" kind="Persistent" fieldName="_cidades" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="8e92d5bf-bb85-415f-a46f-4ed4fd39c780" name="Pessoa" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="7ad2a5b6-11a0-4bd9-aad8-6ac7112b2d81" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="ebb11ca7-e013-424d-98b3-16e18761d2c2" name="Apelido" label="Apelido : String" kind="Persistent" fieldName="_apelido" />
+      <Property Id="78336526-113c-4782-8e44-6bb575bef8a3" name="Avatar" label="Avatar : String" kind="Persistent" fieldName="_avatar" />
+      <Property Id="8e8fde45-0693-4818-b9ce-7599c6dcae70" name="Data_nascimento" type="DateTime" label="Data_nascimento : DateTime" nullable="true" kind="Persistent" fieldName="_data_nascimento" />
+      <Property Id="40fe33c2-3815-482b-95fd-10339119c985" name="Descricao" label="Descricao : String" kind="Persistent" fieldName="_descricao" />
+      <Property Id="60d24118-eb26-4209-bfa5-b65ec6f596a6" name="Email" label="Email : String" kind="Persistent" fieldName="_email" />
+      <Property Id="89a192a8-51ba-41c3-9b98-273e5b95e3b1" name="Id_cidade" type="Int32" label="Id_cidade : Int32" nullable="true" kind="Persistent" fieldName="_id_cidade" />
+      <Property Id="c1ddc80b-e789-4356-adc4-d909bc4127ef" name="Id_instituicao" type="Int32" label="Id_instituicao : Int32" nullable="true" kind="Persistent" fieldName="_id_instituicao" />
+      <Property Id="a349b8a1-5be8-487f-8a5e-11b5a76da1b3" name="IsAtivo" type="Char" label="IsAtivo : Char" nullable="true" kind="Persistent" fieldName="_isAtivo" />
+      <Property Id="d8516dd1-312b-4ce0-8b69-b19a979f7093" name="Nome" label="Nome : String" kind="Persistent" fieldName="_nome" />
+      <Property Id="7f905be1-dad0-4913-90dc-d51a94d61eac" name="Telefone" label="Telefone : String" kind="Persistent" fieldName="_telefone" />
+      <Property Id="4277f952-60c0-4372-986c-49d8b30efd01" name="Tipo" type="Char" label="Tipo : Char" nullable="true" kind="Persistent" fieldName="_tipo" />
+      <AssociationTargets>
+        <Association Id="01910afe-23f3-457c-9875-690e75ff214e" SourceMultiplicity="ZeroOne" name="PessoaHasInstituicao">
+          <DomainClassMoniker name="/ModeloBanco/Instituicao" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="a2efa2c5-1584-488e-b57e-9ef3676f9f7a">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Instituicao/Pessoas" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="db70d7f9-52ce-4d75-b3c6-345b336d0eb8">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Instituicao" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="b3895773-90d4-4276-9c94-4655843c4409" SourceMultiplicity="ZeroOne" name="PessoaHasCidade">
+          <DomainClassMoniker name="/ModeloBanco/Cidade" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="a50f9ede-f11e-444e-bb93-aeaafe23542a">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Cidade/Pessoas" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="9fffbfbf-f04b-48b8-bea0-9c3672d16d6e">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Cidade" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="4198c871-53ea-42c9-83a9-4a70f898f46f">
+          <NavigationalProperty Id="28f82f81-9c45-43ee-87c6-eb30f6d25d78" name="Usuarios" type="IList&lt;Usuario&gt;" label="Usuarios : IList&lt;Usuario&gt;" nullable="true" kind="Persistent" fieldName="_usuarios" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="8c34211c-3d2e-494b-bf48-831355ca88c8">
+          <NavigationalProperty Id="e2fcc724-6ef4-40f2-8cab-7a026b0bf313" name="Instituicao" type="Instituicao" label="Instituicao : Instituicao" nullable="true" kind="Persistent" fieldName="_instituicao" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="0e8324d2-04de-420c-bc46-14ce2c8010ac">
+          <NavigationalProperty Id="d919b5f1-abda-48c1-ac82-bb6a232c7fbd" name="Cidade" type="Cidade" label="Cidade : Cidade" nullable="true" kind="Persistent" fieldName="_cidade" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="d17441eb-2491-4235-9ead-7dd3cec5803f">
+          <NavigationalProperty Id="9245baf9-9ef1-4b8c-bbf0-4e5e7f1c4a07" name="Reclamacaos" type="IList&lt;Reclamacao&gt;" label="Reclamacaos : IList&lt;Reclamacao&gt;" nullable="true" kind="Persistent" fieldName="_reclamacaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="da711c50-c4ca-4178-8b3a-225123dbde41">
+          <NavigationalProperty Id="a0cd3b9c-620c-4af6-8427-543353cf7a34" name="Comentarios" type="IList&lt;Comentario&gt;" label="Comentarios : IList&lt;Comentario&gt;" nullable="true" kind="Persistent" fieldName="_comentarios" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="ed3c881f-6d39-4cfe-8a58-e6b3477c3c41">
+          <NavigationalProperty Id="fe721cde-25b4-402e-bb2b-46f39abe9252" name="Log_participapaos" type="IList&lt;Log_participapao&gt;" label="Log_participapaos : IList&lt;Log_participapao&gt;" nullable="true" kind="Persistent" fieldName="_log_participapaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="88d57d29-c82a-4811-ad3f-620dd3a282ae">
+          <NavigationalProperty Id="054d5820-bfa4-45ab-98a1-ad99ca08b01e" name="Pessoa_nivel_pontos" type="IList&lt;Pessoa_nivel_ponto&gt;" label="Pessoa_nivel_pontos : IList&lt;Pessoa_nivel_ponto&gt;" nullable="true" kind="Persistent" fieldName="_pessoa_nivel_pontos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="71be6de1-2614-4b0f-a14c-14223cf27b63">
+          <NavigationalProperty Id="e2c83121-ea5e-461b-8431-2ded286742ae" name="Log_pontos_pessoas" type="IList&lt;Log_pontos_pessoa&gt;" label="Log_pontos_pessoas : IList&lt;Log_pontos_pessoa&gt;" nullable="true" kind="Persistent" fieldName="_log_pontos_pessoas" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="c2da7ce6-ec3d-4a8a-a799-2afd1e3a5aae">
+          <NavigationalProperty Id="a8aa8f4a-2f1e-4240-819f-90841dbd0ba5" name="Pessoa_desafios" type="IList&lt;Pessoa_desafio&gt;" label="Pessoa_desafios : IList&lt;Pessoa_desafio&gt;" nullable="true" kind="Persistent" fieldName="_pessoa_desafios" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="5fff46a7-68dc-4d5b-b542-321c98bdc66a" name="Instituicao" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="73f1a280-472f-49b9-9b14-65c49ba64885" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="d1a162fd-92e0-4be6-95d8-9d5d9d1757fb" name="Contato" label="Contato : String" kind="Persistent" fieldName="_contato" />
+      <Property Id="51bbe854-773a-46de-999b-6b6206447d12" name="Email" label="Email : String" kind="Persistent" fieldName="_email" />
+      <Property Id="f373d8d9-5616-41d9-807d-9cf2ea15ad59" name="Id_cidade" type="Int32" label="Id_cidade : Int32" nullable="true" kind="Persistent" fieldName="_id_cidade" />
+      <Property Id="cf05dad7-1af8-4ec0-8bfe-a6f755755c89" name="Nome" label="Nome : String" kind="Persistent" fieldName="_nome" />
+      <Property Id="971c489f-1aea-44a5-b845-df9890760b52" name="Nome_fantasia" label="Nome_fantasia : String" kind="Persistent" fieldName="_nome_fantasia" />
+      <Property Id="7ca0b32f-a165-48eb-b1d9-850d7647b90f" name="Telefone" label="Telefone : String" kind="Persistent" fieldName="_telefone" />
+      <AssociationTargets>
+        <Association Id="87cb0c06-9e9c-4d41-8058-7770d806a51a" SourceMultiplicity="ZeroOne" name="InstituicaoHasCidade">
+          <DomainClassMoniker name="/ModeloBanco/Cidade" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="9fe0c173-ff39-49be-b580-3a2373b6afbd">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Cidade/Instituicaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="af276f91-4f04-4406-b2f1-c13cd73118d8">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Instituicao/Cidade" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="7ccbf407-3e12-4e66-88a4-061e449ca5e0">
+          <NavigationalProperty Id="faa96ec9-f680-455c-99ed-bf5ec36f9e3d" name="Pessoas" type="IList&lt;Pessoa&gt;" label="Pessoas : IList&lt;Pessoa&gt;" nullable="true" kind="Persistent" fieldName="_pessoas" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="d48dfca0-846d-4676-a239-a281293c37b1">
+          <NavigationalProperty Id="0864edee-7589-4338-95e6-8e5ae180cdbe" name="Cidade" type="Cidade" label="Cidade : Cidade" nullable="true" kind="Persistent" fieldName="_cidade" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="f46c264b-2981-4a95-94e5-0571d73819e1">
+          <NavigationalProperty Id="c141918c-b889-47d3-bd35-64fdfc279ab0" name="Reclamacaos" type="IList&lt;Reclamacao&gt;" label="Reclamacaos : IList&lt;Reclamacao&gt;" nullable="true" kind="Persistent" fieldName="_reclamacaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="aa97afda-13bd-4f3a-b93e-0144a16ae815">
+          <NavigationalProperty Id="233f4e6e-8c34-4e1d-8b36-1f986210b7fa" name="Departamentos" type="IList&lt;Departamento&gt;" label="Departamentos : IList&lt;Departamento&gt;" nullable="true" kind="Persistent" fieldName="_departamentos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="0617d4cd-ddbd-43d8-85e3-d4e0a6211395" name="Cidade" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="0bc061c7-d309-4aeb-9e45-26b18bbc4fe1" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="73d53269-abfb-439c-9ade-9b8fa45c4755" name="Cidade1" label="Cidade1 : String" kind="Persistent" fieldName="_cidade1" />
+      <Property Id="e72c0473-3486-44b7-a0cf-c9534cc68002" name="Uf" label="Uf : String" kind="Persistent" fieldName="_uf" />
+      <AssociationTargets>
+        <Association Id="5cd4a13c-1954-4cac-8a25-854f84a48df2" SourceMultiplicity="ZeroOne" name="CidadeHasUf">
+          <DomainClassMoniker name="/ModeloBanco/Uf" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="28b2be5c-a163-4d4d-a543-9d7959e6bf14">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Uf/Cidades" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="92d31f8e-6bf0-4cc2-8080-ae648735eaf0">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Cidade/Uf1" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="b7ff8df5-0080-43a4-87e7-875d61427068">
+          <NavigationalProperty Id="e28dbe9b-be3e-41f7-9271-fa411300caf2" name="Pessoas" type="IList&lt;Pessoa&gt;" label="Pessoas : IList&lt;Pessoa&gt;" nullable="true" kind="Persistent" fieldName="_pessoas" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="259323d7-50c4-4d82-97fd-d8302eee131a">
+          <NavigationalProperty Id="67112ca0-81d7-4e3a-9c66-068c0fa9c75c" name="Instituicaos" type="IList&lt;Instituicao&gt;" label="Instituicaos : IList&lt;Instituicao&gt;" nullable="true" kind="Persistent" fieldName="_instituicaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="d37db249-4b7d-4fa4-816d-79c2b98ade6a">
+          <NavigationalProperty Id="b0ad6763-ace5-4919-9302-567fcdbe2f24" name="Uf1" type="Uf" label="Uf1 : Uf" nullable="true" kind="Persistent" fieldName="_uf1" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="64a501fe-7dfb-4ad6-bd32-317770c6fe78" name="Reclamacao" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true">
+      <Property Id="e83b5e63-e6ed-4e0c-ac49-65e87ebd9d08" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="684ae0b4-8229-4ed3-b3a0-0bc0db3322fa" name="Anexo" label="Anexo : String" kind="Persistent" fieldName="_anexo" />
+      <Property Id="eb987d8d-fef2-4baf-abed-719c923906d8" name="Departamento" label="Departamento : String" kind="Persistent" fieldName="_departamento" />
+      <Property Id="185c18f7-a72e-469c-846c-3cd2e6a612a8" name="Descricao" label="Descricao : String" kind="Persistent" fieldName="_descricao" />
+      <Property Id="aefe6227-74c6-40ff-b55b-d81beeb67086" name="Deslikes" type="Int32" label="Deslikes : Int32" nullable="true" kind="Persistent" fieldName="_deslikes" />
+      <Property Id="56c1e8fb-cba2-40dd-8390-8c271ea9766c" name="Id_instituicao" type="Int32" label="Id_instituicao : Int32" nullable="true" kind="Persistent" fieldName="_id_instituicao" />
+      <Property Id="108bcffb-5daa-4a6d-8649-8462ea4750c8" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="3e19f191-2cca-45ae-9a1e-5402a3ec3d87" name="IsSolucionado" type="Boolean" label="IsSolucionado : Boolean" nullable="true" kind="Persistent" fieldName="_isSolucionado" />
+      <Property Id="b46fd6d0-dd60-4306-892b-02982ceeafe2" name="Likes" type="Int32" label="Likes : Int32" nullable="true" kind="Persistent" fieldName="_likes" />
+      <Property Id="a07b5e8e-8d9b-4f8a-b3a3-a90d268ef66a" name="Titulo" label="Titulo : String" kind="Persistent" fieldName="_titulo" />
+      <Property Id="f61b85ce-ee09-4e2a-8ead-b037073f034d" name="DataHora" type="DateTime" label="DataHora : DateTime" nullable="true" kind="Persistent" fieldName="_dataHora" />
+      <Property Id="a90433b2-e2ae-4520-8a15-8cac2a31c1ad" name="IsAtivo" type="Boolean" label="IsAtivo : Boolean" nullable="true" kind="Persistent" fieldName="_isAtivo" />
+      <AssociationTargets>
+        <Association Id="2c122109-00d1-4e5d-8f3e-bc003ca5c9a9" SourceMultiplicity="ZeroOne" name="ReclamacaoHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="53507407-0e8f-44f4-ada4-8368e0b60cf2">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Reclamacaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="67e4d64c-2d93-4cd5-8de1-14c559e1a9c9">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Reclamacao/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="7521bfa9-712b-48a0-bdfc-7232cd69d602" SourceMultiplicity="ZeroOne" name="ReclamacaoHasInstituicao">
+          <DomainClassMoniker name="/ModeloBanco/Instituicao" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="df2257bc-bf28-4f23-9cc7-10cc6cc858a3">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Instituicao/Reclamacaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="b862b0aa-f327-4cf9-bb54-2fef8b79783d">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Reclamacao/Instituicao" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="db005d3a-6107-45cf-9c4b-6d8751444bb8">
+          <NavigationalProperty Id="c054bb5b-fead-45cb-99a0-7286e59c9b2e" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="40288f65-ba3e-4eda-9960-6104545a8c59">
+          <NavigationalProperty Id="5cf4113d-5ddb-437a-a2c0-f40d39528b9c" name="Instituicao" type="Instituicao" label="Instituicao : Instituicao" nullable="true" kind="Persistent" fieldName="_instituicao" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="8138b60c-0071-4b11-b9b5-e678857beb63">
+          <NavigationalProperty Id="4e1a1c50-131d-47aa-afe3-6139c8ae70cd" name="Comentarios" type="IList&lt;Comentario&gt;" label="Comentarios : IList&lt;Comentario&gt;" nullable="true" kind="Persistent" fieldName="_comentarios" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="f1558336-6384-40fe-a9b5-de38ae41d1e2">
+          <NavigationalProperty Id="402dddbc-657a-44d6-855b-622abf3ea52b" name="Log_participapaos" type="IList&lt;Log_participapao&gt;" label="Log_participapaos : IList&lt;Log_participapao&gt;" nullable="true" kind="Persistent" fieldName="_log_participapaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="c48c967f-8954-4252-b1fb-7f340173830f" name="Log_acesso" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="f388b2b2-ab0d-4d17-a915-2a27240a719b" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="975ec6ce-79c5-4470-8058-e8b20d140efb" name="Datahora" type="DateTime" label="Datahora : DateTime" nullable="true" kind="Persistent" fieldName="_datahora" />
+      <Property Id="67be0180-59d3-4b18-81c5-9a9696e5185d" name="Id_usuario" type="Int32" label="Id_usuario : Int32" nullable="true" kind="Persistent" fieldName="_id_usuario" />
+      <AssociationTargets>
+        <Association Id="f5c52097-f2e9-4d79-9ee0-1431e44fb873" SourceMultiplicity="ZeroOne" name="Log_acessoHasUsuario">
+          <DomainClassMoniker name="/ModeloBanco/Usuario" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="424c9e0f-0148-46c2-a007-e903213a0178">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Usuario/Log_acessos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="35936383-5048-4b47-b251-4a1eeb094fed">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Log_acesso/Usuario" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="f6e4e47c-2b03-4239-b7c1-b5887f733231">
+          <NavigationalProperty Id="ac1f9f8e-19a9-499f-861c-a43c3a4ff735" name="Usuario" type="Usuario" label="Usuario : Usuario" nullable="true" kind="Persistent" fieldName="_usuario" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="f9a4eef5-b0d1-4067-956b-2293da0eed5e" name="Comentario" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="99e2fa3a-b3e5-474b-a556-b218287bff90" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="07841cfa-8163-4ed1-969f-089f0cfe4293" name="Descricao" label="Descricao : String" kind="Persistent" fieldName="_descricao" />
+      <Property Id="0400bd7a-bfab-470b-99e9-83a4f0177e88" name="Deslikes" type="Int64" label="Deslikes : Int64" nullable="true" kind="Persistent" fieldName="_deslikes" />
+      <Property Id="6578b15f-8fae-4c0c-abfb-6e3bc2c98885" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="84639e07-3a68-43b1-a1a9-28031ccd3778" name="Id_reclamacao" type="Int32" label="Id_reclamacao : Int32" nullable="true" kind="Persistent" fieldName="_id_reclamacao" />
+      <Property Id="2ebe1e18-1661-4ed0-821c-c32d9897e0d0" name="Likes" type="Int64" label="Likes : Int64" nullable="true" kind="Persistent" fieldName="_likes" />
+      <Property Id="079e4331-b104-4a0f-b4a4-b3fecd96a869" name="DataComentario" type="DateTime" label="DataComentario : DateTime" nullable="true" kind="Persistent" fieldName="_dataComentario" />
+      <Property Id="f82dd4f3-81bb-4a8e-b85f-7cce81f1ae86" name="IsSolucao" type="Boolean" label="IsSolucao : Boolean" nullable="true" kind="Persistent" fieldName="_isSolucao" />
+      <Property Id="95a3bc71-4189-44ae-8941-49df1a3174db" name="IsSolucaoFinal" type="Boolean" label="IsSolucaoFinal : Boolean" nullable="true" kind="Persistent" fieldName="_isSolucaoFinal" />
+      <Property Id="d74c71d9-fcbb-49ba-a198-20b02a3ec994" name="Anexo" label="Anexo : String" kind="Persistent" fieldName="_anexo" />
+      <AssociationTargets>
+        <Association Id="40299501-298b-4d16-8d12-4d4fddf6835c" SourceMultiplicity="ZeroOne" name="ComentarioHasReclamacao">
+          <DomainClassMoniker name="/ModeloBanco/Reclamacao" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="7acafb4c-f667-4b33-95b6-78ac79143b02">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Reclamacao/Comentarios" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="eb7d3540-ad59-41b0-9ab4-2e50899d4c26">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Comentario/Reclamacao" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="3ec39d52-ab79-4855-a459-bc887b2cb4c8" SourceMultiplicity="ZeroOne" name="ComentarioHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="5ec06b11-bd62-43d1-91b2-eb9cfe5159f1">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Comentarios" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="b609781b-f5b5-4166-a1f0-419bc6dfb5ba">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Comentario/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="8d1eee76-29e1-4ab0-9a97-7324eb797117">
+          <NavigationalProperty Id="39fd0125-cc09-4f43-9912-744409a5c804" name="Reclamacao" type="Reclamacao" label="Reclamacao : Reclamacao" nullable="true" kind="Persistent" fieldName="_reclamacao" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="fc2c6db5-cae8-46b0-af24-40fa0a362eac">
+          <NavigationalProperty Id="5d7418f1-0cc5-4202-8b28-68ad74f468ae" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="67b4d06b-ec8c-49a1-b446-cec3d4b8fffc">
+          <NavigationalProperty Id="3adf77ac-ed42-4199-b809-08124184305d" name="Log_participapaos" type="IList&lt;Log_participapao&gt;" label="Log_participapaos : IList&lt;Log_participapao&gt;" nullable="true" kind="Persistent" fieldName="_log_participapaos" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="1917e462-3439-4089-8ef6-5adbecf79a9e" name="Log_participapao" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="1c794eec-9f0e-4310-8d1f-6dda5839dffc" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="9e033ffb-0fd2-41ce-8a06-4c56ac7462e2" name="Acesso" type="Boolean" label="Acesso : Boolean" nullable="true" kind="Persistent" fieldName="_acesso" />
+      <Property Id="67849a24-aa54-4454-805b-25afe832c61b" name="Datahora" type="DateTime" label="Datahora : DateTime" nullable="true" kind="Persistent" fieldName="_datahora" />
+      <Property Id="9e735363-f18d-4e5e-9d17-ffc1a3d826c1" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="e482cfec-b12c-41ee-82c1-06c45bc7f9d0" name="Id_reclamacao" type="Int32" label="Id_reclamacao : Int32" nullable="true" kind="Persistent" fieldName="_id_reclamacao" />
+      <Property Id="790622aa-7400-41e4-9d86-f9ea919fe1fb" name="Tipo" label="Tipo : String" kind="Persistent" fieldName="_tipo" />
+      <Property Id="e9d792a9-ab8a-449d-b329-4ebee57ec5a3" name="Visto" type="Boolean" label="Visto : Boolean" nullable="true" kind="Persistent" fieldName="_visto" />
+      <Property Id="b5d4c5c0-3b48-4053-9744-d24913863059" name="Id_comentario" type="Int32" label="Id_comentario : Int32" nullable="true" kind="Persistent" fieldName="_id_comentario" />
+      <Property Id="676d4d96-7f90-4168-b078-a6a824f671aa" name="Id_curtidor" type="Int32" label="Id_curtidor : Int32" nullable="true" kind="Persistent" fieldName="_id_curtidor" />
+      <AssociationTargets>
+        <Association Id="ace1ab18-1e6f-496a-887d-dffc854d7c0b" SourceMultiplicity="ZeroOne" name="Log_participapaoHasReclamacao">
+          <DomainClassMoniker name="/ModeloBanco/Reclamacao" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="7036c2eb-e198-45f7-9c55-1963a562900e">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Reclamacao/Log_participapaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="1c6a0458-31be-4589-be14-44030e8ec4be">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Log_participapao/Reclamacao" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="cc7b8584-12a0-4541-8185-fc52d7a700f0" SourceMultiplicity="ZeroOne" name="Log_participapaoHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="0ecd7324-2c63-48ed-ba80-4fd8153e50e3">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Log_participapaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="023bd69c-33a5-4f66-a160-7123aecb20f4">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Log_participapao/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="934fafb6-7e2e-4819-9419-e9f74fb4095f" SourceMultiplicity="ZeroOne" name="Log_participapaoHasComentario">
+          <DomainClassMoniker name="/ModeloBanco/Comentario" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="85e03cc8-fd31-4887-a675-8522671f7232">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Comentario/Log_participapaos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="87b25ccf-b79d-4784-89b3-ec7146170491">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Log_participapao/Comentario" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="4f2f3cfa-a2a7-4837-82bb-5e31fef5bc6e">
+          <NavigationalProperty Id="ec07dd69-2647-4be5-96b5-66811d4d65c5" name="Reclamacao" type="Reclamacao" label="Reclamacao : Reclamacao" nullable="true" kind="Persistent" fieldName="_reclamacao" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="cd3f5b9a-b6d0-42af-b782-35cb558c61d3">
+          <NavigationalProperty Id="d387daa0-d026-40b4-bc63-17c1fb682a1a" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="aa346b29-ca4a-491a-867a-5b239d8f1721">
+          <NavigationalProperty Id="b98add4b-fb3f-420e-95e4-5c66963316ea" name="Comentario" type="Comentario" label="Comentario : Comentario" nullable="true" kind="Persistent" fieldName="_comentario" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="4c59486e-9513-4271-9104-04354f8ad75d" name="Pessoa_nivel_ponto" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="4b411a7d-1fa2-478e-b174-04436a4f501d" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="59ca59d9-f4fb-41fb-b2c8-aeb2d0a632f1" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="8f1e112f-35fc-438c-ac95-e264db08eb7f" name="Nivel" type="Int32" label="Nivel : Int32" nullable="true" kind="Persistent" fieldName="_nivel" />
+      <Property Id="df95cbd4-4df4-4b43-9f76-ebc9406dbeac" name="Pontos" type="Int64" label="Pontos : Int64" nullable="true" kind="Persistent" fieldName="_pontos" />
+      <AssociationTargets>
+        <Association Id="53c9a45e-c93f-4986-a440-147ad86f2503" SourceMultiplicity="ZeroOne" name="Pessoa_nivel_pontoHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="b0463310-5a70-40d5-a562-c66cff34633f">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Pessoa_nivel_pontos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="8b1efda9-18ab-404e-a2d7-c06c3cdc628c">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa_nivel_ponto/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="bbdedbed-2c92-41ce-a8e0-a86036e6e43e">
+          <NavigationalProperty Id="3848c23e-c57d-48ee-82ca-24c9e0442a82" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="46a8df9e-b0c6-4cfc-9202-4ee78add929a" name="Log_pontos_pessoa" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="439d4bd9-d3bb-40f2-b2eb-741e77dec5dc" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="ef40cfaa-32ce-414c-947f-cbdaf2bb76a5" name="Descricao" label="Descricao : String" kind="Persistent" fieldName="_descricao" />
+      <Property Id="7828960b-f055-4b9a-aa34-62fe9a6e876e" name="Id_pessoa" type="Int32" label="Id_pessoa : Int32" nullable="true" kind="Persistent" fieldName="_id_pessoa" />
+      <Property Id="f3fa0e01-b6e4-45a9-ad7e-d558978907bd" name="Pontos" type="Int64" label="Pontos : Int64" nullable="true" kind="Persistent" fieldName="_pontos" />
+      <Property Id="0b061ca7-8b47-497b-8b99-ca3dfbb4ac2e" name="Data" type="DateTime" label="Data : DateTime" nullable="true" kind="Persistent" fieldName="_data" />
+      <Property Id="f052c18e-ff02-46f7-8928-b2a6e3ee342c" name="TipoPonto" type="Int32" label="TipoPonto : Int32" nullable="true" kind="Persistent" fieldName="_tipoPonto" />
+      <AssociationTargets>
+        <Association Id="6340f5c7-91fe-4d38-8eaf-7ece1738bc4d" SourceMultiplicity="ZeroOne" name="Log_pontos_pessoaHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="c0ee83b7-9d56-42fb-a8b7-3fa0d8c730f5">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Log_pontos_pessoas" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="b5480198-c81e-43e6-a77a-4a652d4b54cc">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Log_pontos_pessoa/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="1039fd00-1a81-434e-a9c3-0ac4f6845e57">
+          <NavigationalProperty Id="08cb9cff-8185-4872-856e-a8db0be96d54" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="52ba1e50-e620-4e34-ae2f-79d27ee73fbd" name="Departamento" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="e04670a7-c3ba-4fdc-9420-415060eee3ce" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="5cdbd20b-e2c3-4646-a821-3628d72714c7" name="Id_instituicao" type="Int32" label="Id_instituicao : Int32" nullable="true" kind="Persistent" fieldName="_id_instituicao" />
+      <Property Id="827f111c-72d6-415e-bf06-58d858dc33ad" name="Nome" label="Nome : String" kind="Persistent" fieldName="_nome" />
+      <AssociationTargets>
+        <Association Id="22d26be6-8afe-48da-a969-6cbe0e41fead" SourceMultiplicity="ZeroOne" name="DepartamentoHasInstituicao">
+          <DomainClassMoniker name="/ModeloBanco/Instituicao" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="e0c381ff-776e-4a4a-bb53-6ec19dfeb991">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Instituicao/Departamentos" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="7fbd8331-2822-4220-9d77-c7e9c81e8c54">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Departamento/Instituicao" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="94d4ed8c-a15f-4296-9566-def6540824c0">
+          <NavigationalProperty Id="8e5819bb-e6a0-4eb2-8f8b-377c6761be0e" name="Instituicao" type="Instituicao" label="Instituicao : Instituicao" nullable="true" kind="Persistent" fieldName="_instituicao" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="4425e242-9472-4362-83e7-463cbde72cc5" name="Pessoa_desafio" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="4e19c649-e185-479d-b6f9-69d01fef201c" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="d70f6405-d698-4604-a6be-c30f4d827a71" name="Data" type="DateTime" label="Data : DateTime" nullable="true" kind="Persistent" fieldName="_data" />
+      <Property Id="46a18411-465a-49cb-a9a0-c93438c2c92c" name="Ganho" type="Boolean" label="Ganho : Boolean" nullable="true" kind="Persistent" fieldName="_ganho" />
+      <Property Id="5a165be8-92f4-4a99-86f1-7802f2f8a962" name="Hora" type="DateTime" label="Hora : DateTime" nullable="true" kind="Persistent" fieldName="_hora" />
+      <Property Id="ae242477-def9-4118-a24d-3b130c0abcf2" name="IdDesafio" type="Int32" label="IdDesafio : Int32" nullable="true" kind="Persistent" fieldName="_idDesafio" />
+      <Property Id="236d3011-f5aa-4b1c-be8d-5447386da9c1" name="IdPessoa" type="Int32" label="IdPessoa : Int32" nullable="true" kind="Persistent" fieldName="_idPessoa" />
+      <Property Id="d588616b-9010-4715-837e-692d8deb5319" name="VezesGanhas" type="Int32" label="VezesGanhas : Int32" nullable="true" kind="Persistent" fieldName="_vezesGanhas" />
+      <AssociationTargets>
+        <Association Id="4cc0eb79-0969-458d-b7a7-bd233fb6ef1f" SourceMultiplicity="ZeroOne" name="Pessoa_desafioHasPessoa">
+          <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="0c4b1296-a040-4180-a23c-7183271ac773">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa/Pessoa_desafios" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="b7df30e0-6f3b-43ed-b4de-c3222ae3e47f">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa_desafio/Pessoa" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+        <Association Id="919a85da-f83e-4b0f-9cfc-d40fe427f707" SourceMultiplicity="ZeroOne" name="Pessoa_desafioHasDesafio">
+          <DomainClassMoniker name="/ModeloBanco/Desafio" />
+          <targetNavigationalProperty>
+            <associationDefinesTargetProperty Id="2b4311c3-c5eb-4873-a5e0-e36304e2cf76">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Desafio/Pessoa_desafios" />
+            </associationDefinesTargetProperty>
+          </targetNavigationalProperty>
+          <sourceNavigationalProperty>
+            <associationDefinesSourceProperty Id="64dc772b-9604-4826-9cf8-2581c2f1ff6f">
+              <NavigationalPropertyMoniker name="/ModeloBanco/Pessoa_desafio/Desafio" />
+            </associationDefinesSourceProperty>
+          </sourceNavigationalProperty>
+        </Association>
+      </AssociationTargets>
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="18ee3a26-d24f-41a1-b05b-8bc3e48af674">
+          <NavigationalProperty Id="d07c2d48-8fab-4630-b61b-0d973521ff5a" name="Pessoa" type="Pessoa" label="Pessoa : Pessoa" nullable="true" kind="Persistent" fieldName="_pessoa" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+        <classHasNavigationalProperties Id="ac4d929e-7493-48e7-84ee-969a0a87c432">
+          <NavigationalProperty Id="885661af-e6fb-4c31-86b2-ce4e61d5d457" name="Desafio" type="Desafio" label="Desafio : Desafio" nullable="true" kind="Persistent" fieldName="_desafio" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+    <DomainClass Id="b77f80a3-9ce7-42d6-a995-1d2622804fd9" name="Desafio" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true" identityMechanism="DatabaseServerCalculated" concurrencyMode="Changed" showNavigationCompartment="true" showImplementationCompartment="true" identityMechanismMember="Id">
+      <Property Id="2cd0b462-e9e8-47fc-a7f7-cf72366d3444" name="Id" type="Int32" label="Id : Int32" kind="Persistent" identity="true" fieldName="_id" />
+      <Property Id="09c9e0ed-2411-4d28-a698-2faea5dbb33e" name="Descricao" label="Descricao : String" kind="Persistent" fieldName="_descricao" />
+      <Property Id="21937af7-993d-47d9-b211-0c529faa9566" name="Titulo" label="Titulo : String" kind="Persistent" fieldName="_titulo" />
+      <navigationalProperties>
+        <classHasNavigationalProperties Id="cf1c8a4e-fba6-4486-9fb5-00e1a4baa6ac">
+          <NavigationalProperty Id="03e5adcb-4e52-4120-aac2-e16c23ce905b" name="Pessoa_desafios" type="IList&lt;Pessoa_desafio&gt;" label="Pessoa_desafios : IList&lt;Pessoa_desafio&gt;" nullable="true" kind="Persistent" fieldName="_pessoa_desafios" isDependent="false" isManaged="false" />
+        </classHasNavigationalProperties>
+      </navigationalProperties>
+    </DomainClass>
+  </Types>
+  <domainContext>
+    <domainModelHasDomainContext Id="660bd488-3d1c-49c6-bdc8-695566553c7c">
+      <domainContainer name="ModeloBanco" namespace="Ouvidoria_Social_DataAccess" showPropertiesCompartment="true">
+        <entitySetProperty name="Usuarios" namespace="Ouvidoria_Social_DataAccess" type="Usuario" label="Usuarios : IQueryable&lt;Ouvidoria_Social_DataAccess.Usuario&gt;" />
+        <entitySetProperty name="Ufs" namespace="Ouvidoria_Social_DataAccess" type="Uf" label="Ufs : IQueryable&lt;Ouvidoria_Social_DataAccess.Uf&gt;" />
+        <entitySetProperty name="Pessoas" namespace="Ouvidoria_Social_DataAccess" type="Pessoa" label="Pessoas : IQueryable&lt;Ouvidoria_Social_DataAccess.Pessoa&gt;" />
+        <entitySetProperty name="Instituicaos" namespace="Ouvidoria_Social_DataAccess" type="Instituicao" label="Instituicaos : IQueryable&lt;Ouvidoria_Social_DataAccess.Instituicao&gt;" />
+        <entitySetProperty name="Cidades" namespace="Ouvidoria_Social_DataAccess" type="Cidade" label="Cidades : IQueryable&lt;Ouvidoria_Social_DataAccess.Cidade&gt;" />
+        <entitySetProperty name="Reclamacaos" namespace="Ouvidoria_Social_DataAccess" type="Reclamacao" label="Reclamacaos : IQueryable&lt;Ouvidoria_Social_DataAccess.Reclamacao&gt;" />
+        <entitySetProperty name="Log_acessos" namespace="Ouvidoria_Social_DataAccess" type="Log_acesso" label="Log_acessos : IQueryable&lt;Ouvidoria_Social_DataAccess.Log_acesso&gt;" />
+        <entitySetProperty name="Comentarios" namespace="Ouvidoria_Social_DataAccess" type="Comentario" label="Comentarios : IQueryable&lt;Ouvidoria_Social_DataAccess.Comentario&gt;" />
+        <entitySetProperty name="Log_participapaos" namespace="Ouvidoria_Social_DataAccess" type="Log_participapao" label="Log_participapaos : IQueryable&lt;Ouvidoria_Social_DataAccess.Log_participapao&gt;" />
+        <entitySetProperty name="Pessoa_nivel_pontos" namespace="Ouvidoria_Social_DataAccess" type="Pessoa_nivel_ponto" label="Pessoa_nivel_pontos : IQueryable&lt;Ouvidoria_Social_DataAccess.Pessoa_nivel_ponto&gt;" />
+        <entitySetProperty name="Log_pontos_pessoas" namespace="Ouvidoria_Social_DataAccess" type="Log_pontos_pessoa" label="Log_pontos_pessoas : IQueryable&lt;Ouvidoria_Social_DataAccess.Log_pontos_pessoa&gt;" />
+        <entitySetProperty name="Departamentos" namespace="Ouvidoria_Social_DataAccess" type="Departamento" label="Departamentos : IQueryable&lt;Ouvidoria_Social_DataAccess.Departamento&gt;" />
+        <entitySetProperty name="Pessoa_desafios" namespace="Ouvidoria_Social_DataAccess" type="Pessoa_desafio" label="Pessoa_desafios : IQueryable&lt;Ouvidoria_Social_DataAccess.Pessoa_desafio&gt;" />
+        <entitySetProperty name="Desafios" namespace="Ouvidoria_Social_DataAccess" type="Desafio" label="Desafios : IQueryable&lt;Ouvidoria_Social_DataAccess.Desafio&gt;" />
+      </domainContainer>
+    </domainModelHasDomainContext>
+  </domainContext>
+</DomainModel>

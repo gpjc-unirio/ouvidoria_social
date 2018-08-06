@@ -1,0 +1,120 @@
+﻿@using System.Globalization
+@using ouvidoria_social.Models.Adapter
+@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Pessoa
+
+@{
+    ViewBag.Title = "AlterarPerfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var model = ConnectionDbClass.DataModel;
+
+    var ufs = model.Ufs.ToList();
+    ufs.Insert(0, new Uf()
+    {
+        Nome = "Estado",
+        Uf1 = "-"
+    });
+
+    //var estados = new SelectList(ufs, "uf1", "Nome", Model.Cidade.Uf);
+
+    //var cidades = model.Cidades.Where(w => w.Uf == Model.Cidade.Uf).ToList();
+
+    //var city = new SelectList(cidades, "id", "Cidade1", Model.Cidade.Id);
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Ufs").change(function () {
+            listaCidade($(this).val());
+        });
+    });
+
+    $("input").on("change", function() {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "YYYY-MM-DD")
+            .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change");
+
+    //chamada ajax para a Action ListaCidade
+    //passando como parâmetro a Estado selecionado
+    function listaCidade(uf) {
+
+        var url = "@Url.Action("ListaCidade", "Autenticacao")" + "/?uf=" + uf;
+
+            $.getJSON(url, listaCidadeCallBack);
+        }
+        //função que irá ser chamada quando terminar
+        //a chamada ajax
+        function listaCidadeCallBack(json) {
+            $("#Id_cidade :gt(0)").remove();
+
+            var cidade = "arroba Model.Cidade.Id";
+
+            $(json).each(function () {
+                if (cidade == this.Id) {
+
+                    alert(cidade);
+                    $("#Id_cidade").append("<option selected='selected' value='" + this.Id + "'>" + this.Cidade + "</option>");
+                } else {
+                    $("#Id_cidade").append("<option value='" + this.Id + "'>" + this.Cidade + "</option>");
+                }
+            });
+        }
+</script>
+
+<div class="container">
+
+    @Html.Partial("_HeaderPerfilView")
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">Informaçoes Básicas - Alteração de Perfil</h3>
+                </div>
+                @using (Html.BeginForm("GravarPerfil", "Usuario", FormMethod.Post))
+                {
+                    <div class="panel-body">
+                        @Html.LabelFor(l => l.Nome)<br/>
+                        @Html.TextBoxFor(l => l.Nome, new Dictionary<string, object>() {{"autofocus", "autofocus"}, {"maxlenght", 100}, {"size", 90}, {"class", "form-control"}})<br/>
+
+                        <!--
+                        @Html.LabelFor(l => l.Apelido)<br/>
+                        @Html.TextBoxFor(l => l.Apelido, new Dictionary<string, object>() {{"maxlenght", 100}, {"size", 90}, {"class", "form-control"}})<br/>
+                        -->
+                        
+                        <!--
+                        @Html.Label("Telefone (Fixo ou Celular)")<br/>
+                        @Html.TextBoxFor(l => l.Telefone, new Dictionary<string, object>() {{"maxlenght", 11}, {"type", "tel"}, {"size", 20}, {"class", "form-control"}})<br/>
+                        -->
+
+                        @Html.Label("E-Mail")<br/>
+                        @Html.TextBoxFor(l => l.Email, new Dictionary<string, object>() {{"maxlenght", 100}, {"type", "email"}, {"size", 90}, {"class", "form-control"}})<br/>
+
+                        <!--
+                        @Html.Label("Estado")
+
+                        @Html.Label("Cidade")<br/>
+                        -->
+
+                        @Html.Label("Descrição")<br/>
+                        @Html.TextAreaFor(l => l.Descricao, new Dictionary<string, object>() {{"maxlenght", 500}, {"size", 80}, {"class", "form-control"}})<br/>
+
+                        @Html.HiddenFor(l => l.Id)
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button>
+                        <a class="btn btn-primary" href="@Url.Action("Perfil", "Usuario", new {Id = Model.Id})"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.Partial("_AlterarUsuarioView", new UsuarioAdapter());
+        </div>
+    </div>
+</div>
+

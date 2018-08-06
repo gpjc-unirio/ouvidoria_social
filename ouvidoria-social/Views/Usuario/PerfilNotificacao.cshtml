@@ -1,0 +1,85 @@
+﻿@model Pessoa
+@using Microsoft.Ajax.Utilities
+@using Ouvidoria_Social_DataAccess
+
+@{
+    ViewBag.Title = "Notificações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var usuario = (Usuario)HttpContext.Current.Session["Usuario"];
+
+    var isThisUser = Model.Id == usuario.Pessoa.Id;
+
+    var model = ConnectionDbClass.DataModel;
+}
+
+<script type="text/javascript">
+    $(document).on('change', '.btn-file :file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function() {
+        $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+    });
+</script>
+
+<div class="container">
+    @Html.Partial("_HeaderPerfilView")
+    <br/>
+    <div class="row">
+        @if (isThisUser)
+        {
+            List<Log_participapao> log = new List<Log_participapao>();
+            if (usuario != null)
+            {
+                log = model.Log_participapaos.Where(w => w.Id_pessoa == usuario.Id_pessoa && w.Visto.Value == false).OrderByDescending(o => o.Datahora).ToList();
+            }
+
+            @Html.Partial("_NotificacoesPerfilView", log)
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal modal-vcenter fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Alteração de Imagem de Perfil</h4>
+            </div>
+            @using (Html.BeginForm("AlterarImagem", "Usuario", FormMethod.Post, new Dictionary<string, object>() { { "enctype", "multipart/form-data" } }))
+            {
+                <div class="modal-body">
+                    @Html.Label("Carregar Nova Imagem")
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Buscar Imagem&hellip; <input type="file" name="file" id="file">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" readonly>
+                    </div><br />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button>
+                    <button class="btn btn-default" type="submit" data-dismiss="modal"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

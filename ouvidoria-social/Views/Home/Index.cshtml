@@ -1,0 +1,114 @@
+﻿@using System.Activities.Expressions
+@using Ouvidoria_Social_DataAccess.Control
+@model ouvidoria_social.Models.Adapter.UsuarioAdapter
+
+@{
+    ViewBag.Title = "Ouvidoria Social";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 ">
+        <img src="@Url.Content("~/Images/logo/logoGrande.png")" class="img-responsive center-block embed-responsive-item" 
+             width="299" height="313"/>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-justify" style="font-family: calibri; font-size: 15pt">
+        Ouvidoria Social é a mais nova aplicação para que o cidadão possa apontar e discutir problemas da instituição. Através desta é possível registrar, comentar e buscar soluções para diferentes problemas, além de colaborar para resolver reclamações de outros cidadãos.
+    </div>
+</div>
+<hr />
+<div class="row" style="font-family: calibri; font-size: 15pt">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-5">
+            <div class="col-md-2">
+                <i class="glyphicon glyphicon-bullhorn" style="font-size: 1.5em;"></i>
+            </div>
+            <div class="col-md-10">
+                <strong>Crie suas reclamações</strong><br/>
+                <span style="font-family: calibri; font-size: 11pt">
+                    Viu alguma coisa errada na instituição, não hesite! Faça a sua reclamação.
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <div class="col-md-2">
+                <i class="glyphicon glyphicon-user" style="font-size: 1.5em;"></i>
+            </div>
+            <div class="col-md-10">
+                <strong>Colabore com outros cidadãos</strong><br/>
+                <span style="font-family: calibri; font-size: 11pt">
+                    Ajude na resolução dos problemas através de comentários, apoio ou crítica a reclamação.
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+@if (TipoAmbienteCtrl.ControlarGamificacao)
+{
+    <div class="row" style="font-family: calibri; font-size: 15pt">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-5">
+                <div class="col-md-2">
+                    <i class="glyphicon glyphicon-list-alt" style="font-size: 1.5em;"></i>
+                </div>
+                <div class="col-md-10">
+                    <strong>Ganhe pontos, cumpra desafios</strong><br/>
+                    <span style="font-family: calibri; font-size: 11pt">
+                    Ajude a solucionar problemas, desafie-se e ganho pontos.
+                </span>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-5">
+                <div class="col-md-2">
+                    <i class="glyphicon glyphicon-flash" style="font-size: 1.5em;"></i>
+                </div>
+                <div class="col-md-10">
+                    <strong>Suba de nível, influencie</strong><br/>
+                    <span style="font-family: calibri; font-size: 11pt">
+                    Influencie outros cidadãos através do seu nível de colaboração.
+                </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading"> <span class="glyphicon glyphicon-list-alt"></span><b> Novas Reclamações</b></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="demo1">
+                                @Html.Partial("_ReclamacoesNovas")
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".demo1").bootstrapNews({
+            newsPerPage: 3,
+            autoplay: true,
+            pauseOnHover: true,
+            direction: 'up',
+            newsTickerInterval: 10000,
+            onToDo: function () {
+                //console.log(this);
+            }
+        });
+    });
+</script>

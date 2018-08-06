@@ -1,0 +1,65 @@
+﻿@using ouvidoria_social.Models
+@using Ouvidoria_Social_DataAccess
+
+@{
+    var user = UsuarioRepository.GetUsuarioLogado();
+
+    var idPessoa = -1;
+    if (user != null)
+    {
+        idPessoa = user.Id_pessoa.Value;
+    }
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('body').on('click', function(e) {
+            $('#popoverNotify').each(function() {
+                //the 'is' for buttons that trigger popups
+                //the 'has' for icons within a button that triggers a popup
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    $(this).popover('hide');
+                }
+            });
+        });
+    });
+
+    $(function () {
+        var url = "@Url.Action("ListaNotificacoes", "Home", new { IdPessoa = idPessoa })";
+
+        $('#popoverNotify').popover(
+        {
+            content: function () {
+        var output = '';
+        $.ajax(
+            {
+                url: url,
+                        async: false,
+                        success: function (response) {
+                            output = response;
+                        }
+                    });
+                return output;
+            },
+            html: true,
+            container: 'body',
+            title: 'Notificações',
+            placement: 'top'
+        });
+    });
+
+</script>
+
+<div class="navbar navbar-custom navbar-fixed-bottom">
+    <div class="container">
+        <ul class="nav navbar-nav2">
+            @{
+                if (user != null)
+                {
+                    <!--<li><a href="#"><span class="glyphicon glyphicon-tower"></span> <span id="bdg" class="badge"></span></a></li>-->
+                    <li><a title="" id='popoverNotify'><span class="glyphicon glyphicon-comment"></span> <span id="msg" class="badge"></span></a></li>
+                }
+            }
+        </ul>
+    </div>
+</div>

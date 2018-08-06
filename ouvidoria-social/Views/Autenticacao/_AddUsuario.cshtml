@@ -1,0 +1,46 @@
+﻿@model ouvidoria_social.Models.Adapter.UsuarioAdapter
+
+
+    <script src="/Scripts/jquery.validate.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>    
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Registro de Usuário</h3><br/>
+
+        @if (ViewBag.Tipo != 3)
+        {
+            <div class="alert alert-danger">
+                <strong>Atenção</strong>
+                <p>@ViewBag.Mensagem</p>
+            </div>
+        }
+    </div>
+    @if (ViewBag.Tipo != 0)
+    {
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("AddUsuarioAjax", "Autenticacao", new AjaxOptions()
+            {
+            HttpMethod = "POST",
+            LoadingElementId = "divProgress3",
+            UpdateTargetId = "finalResult",
+            OnSuccess = "OnSuccess3",
+            InsertionMode = InsertionMode.Replace
+            }))
+            {
+            @Html.LabelFor(l => l.Login)<br/>
+            @Html.TextBoxFor(l => l.Login, new Dictionary<string, object>() {{"autofocus", "autofocus"}, {"maxlenght", 100}, {"size", 90}, {"class", "form-control"}})<br/>
+
+            @Html.LabelFor(l => l.Senha)<br/>
+            @Html.PasswordFor(l => l.Senha, new Dictionary<string, object>() {{"maxlenght", 100}, {"size", 90}, {"class", "form-control "}})<br/>
+
+            @Html.ValidationSummary()
+
+            <p/>
+            <button class="btn btn-success" id="btnGravarUsuario" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button>
+            }
+
+        </div>
+    }
+</div>

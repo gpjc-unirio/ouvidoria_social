@@ -1,0 +1,108 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model List<Ouvidoria_Social_DataAccess.Reclamacao>
+
+@{
+    var isThisUser = (bool) ViewData["isThisUser"];
+    var reclamacoes = Model.Where(w => w.IsAtivo == true).OrderByDescending(o => o.DataHora).Take(10);    
+}
+
+<div class="col-md-9">
+    <div class="table-responsive">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title"><i class="glyphicon glyphicon-comment"></i> Minhas Reclamações</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Título</th>
+                        <th>Instituição</th>
+                        <th style="text-align: center;">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var rec in reclamacoes)
+                    {
+                        var iSolucionado = rec.Comentarios.Any(a => a.IsSolucao == true);
+
+                        <tr>
+                            <td class="text-center">
+                                @if (isThisUser)
+                                {
+                                    if (!iSolucionado)
+                                    {
+                                        <a href="@Url.Action("DesativarReclamacao", "Ouvidoria", new {Id = rec.Id})">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    }
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (isThisUser)
+                                {
+                                    if (!iSolucionado)
+                                    {
+                                        <a href="@Url.Action("AlterarReclamacao", "Ouvidoria", new {Id = rec.Id})">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </a>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("AcessarReclamacao", "Ouvidoria", new {Id = rec.Id})">
+                                    @rec.Titulo
+                                </a>
+                            </td>
+                            <td>
+                                @if (rec.Instituicao != null)
+                                {
+                                    @Html.ActionLink(rec.Instituicao.Nome, "Perfil", new {Id = rec.Instituicao.Pessoas[0].Id})
+                                }
+                            </td>
+                            <td style="text-align: center;">
+                                @if (iSolucionado)
+                                {
+                                    <i class="glyphicon glyphicon-ok-sign text-center"></i>
+                                }
+                                else
+                                {
+                                    <i class="glyphicon glyphicon-remove-sign text-center"></i>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                    <tfoot class="text-left">
+                    <tr>
+                        <td colspan="3"><strong>Total de Registros: @reclamacoes.Count()</strong></td>
+                        <td colspan="4">
+                            <strong>
+                                Legenda: <i class="glyphicon glyphicon-ok-sign text-center"></i> Solucionado
+                                <i class="glyphicon glyphicon-remove-sign text-center"></i> Não Solucionado
+                            </strong>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="panel-footer ">
+                <div class="row">
+                    <div class="col-md-8 text-left vertical-align">
+                        <small><strong>Serão exibidos apenas os 10 primeiros resultados.</strong></small>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        @if (isThisUser)
+                        {
+                            <a class="btn btn-primary" href="@Url.Action("IncluirReclamacao", "Ouvidoria")"><i class="glyphicon glyphicon-pencil"></i> Reclame Aqui</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

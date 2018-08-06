@@ -1,0 +1,123 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Reclamacao
+
+@{
+    ViewBag.Title = "IncluirReclamacao";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var usuario = (Usuario) Session["Usuario"];
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#addInstituicao").click(function () {
+            IncluirInstituicao($("#NomeInst").val());
+        });
+        
+        $("form").submit(function () {
+            $("#btnGravar").prop("disabled", true);
+            $("#btnCancelar").prop("disabled", true);
+        });
+    });
+
+
+    function IncluirInstituicao(nomeInst) {
+        var url = "@Url.Action("IncluirInstituicao", "Usuario")" + "/?nome=" + nomeInst;
+        $.getJSON(url, listaIntituicaoCallback);
+    }
+
+    //chamada ajax para a Action ListaCidade
+    //passando como parâmetro a Estado selecionado
+    function ListaDeptos(idInst) {
+        var url = "@Url.Action("ListaDepartamento", "Ouvidoria")" + "/?idInst=" + idInst;
+
+        $.getJSON(url, listaCidadeCallBack);
+    }
+
+    //função que irá ser chamada quando terminar
+    //a chamada ajax
+    function listaCidadeCallBack(json) {
+        $("#Id_Departamento").empty();
+
+        $(json).each(function () {
+            $("#Id_Departamento").append("<option value='" + this.Nome + "'>"+ this.Id +"</option>");
+        });
+    }
+
+    function listaIntituicaoCallback(json) {
+        $("#Id_instituicao").empty();
+        
+        $(json).each(function () {
+            $("#Id_instituicao").append("<option value='" + this.Id + "'>" + this.Nome + "</option>");
+        });
+    }
+</script>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">Reclame Aqui</h3>
+                </div>
+                @using (Html.BeginForm("GravarReclamacao", "Ouvidoria", FormMethod.Post, new Dictionary<string, object>() {{"enctype", "multipart/form-data"}}))
+                {
+                    <div class="panel-body" id="reclamacao">
+                        @if (Model != null)
+                        {
+                            @(!string.IsNullOrEmpty(Model.Anexo) ? Html.Partial("_IncluirReclamacaoMidia") : Html.Partial("_IncluirReclamacaoTexto"))
+                        }
+                        else
+                        {
+                            @Html.Partial("_IncluirReclamacaoTexto")
+                        }
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button class="btn btn-primary" type="submit" id="btnGravar"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i> Publicar</button>
+                        <a class="btn btn-primary" id="btnCancelar" href="@Url.Action("Perfil", "Usuario", new { Id = usuario.Pessoa.Id})"><i class="glyphicon glyphicon-ban-circle"></i> Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @if (ViewBag.Erro != "" && ViewBag.Erro != null)
+            {
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Erro:</strong>
+                    <p>@ViewBag.Erro</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-vcenter fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nova Instiuição</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="input-group">
+                        <label for="NomeInst">Instituição</label><br />
+                        <input class="form-control" id="NomeInst" name="NomeInst" type="text" value="" /><br />
+
+                    </div><br />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" id="addInstituicao" name="addInstituicao"><i class="glyphicon glyphicon-floppy-disk"></i> Publicar</button>
+                <button class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

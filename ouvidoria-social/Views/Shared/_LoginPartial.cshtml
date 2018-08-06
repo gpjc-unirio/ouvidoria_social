@@ -1,0 +1,75 @@
+﻿@using ouvidoria_social.Models
+@using Ouvidoria_Social_DataAccess.Control
+@{
+    var user = UsuarioRepository.GetUsuarioLogado();
+    
+    if (user != null)
+    {
+        if (user.Pessoa.IsAtivo == 'S')
+        {
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    @{
+                        var sobrenome = "";
+                        var nomes = user.Pessoa.Nome.Trim().Split(' ');
+                        if (nomes.Count() >= 2)
+                        {
+                            sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+                        }
+
+                        var nick = user.Pessoa.Nome;
+                        var url = Url.Content("~/Images/Uploads/Avatar/" + user.Pessoa.Avatar);
+                    }
+                    @if (!string.IsNullOrEmpty(user.Pessoa.Avatar))
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @user.Pessoa.Id})'>
+                            <img class="img-circle" alt='@nick' src='@url' width="24" height="24"> @nick
+                        </a>
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @user.Pessoa.Id})'>
+                            @nick
+                        </a>
+                    }
+                </li>
+                @if (TipoAmbienteCtrl.ControlarGamificacao)
+                {
+                    <li><a href="@Url.Action("Ranking", "Usuario")"><i class="glyphicon glyphicon-star"></i> Ranking</a></li>
+                }
+                
+                <li><a href="@Url.Action("IncluirReclamacao", "Ouvidoria")"><i class="glyphicon glyphicon-pencil"></i> Reclame Aqui</a></li>
+                <li><a href="@Url.Action("Reclamacoes", "Ouvidoria")"><i class="glyphicon glyphicon-comment"></i> Reclamações</a></li>
+                <li><a href="@Url.Action("About", "Home")"><i class="glyphicon glyphicon-info-sign"></i> Informações</a></li>
+                <li><a href="@Url.Action("Logout", "Autenticacao")"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
+            </ul>
+        }
+        else
+        {
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    @{
+                        var nick = user.Pessoa.Nome;
+                    }
+                    <a href='@Url.Action("ReativarPerfil", "Usuario", new {Id = @user.Pessoa.Id})'>
+                        <strong>@nick (Inativo)</strong> - Reativar Perfil
+                    </a>
+                </li>
+                <li><a href="@Url.Action("Reclamacoes", "Ouvidoria")"><i class="glyphicon glyphicon-comment"></i> Reclamações</a></li>
+                <li><a href="@Url.Action("About", "Home")"><i class="glyphicon glyphicon-info-sign"></i> Informações</a></li>
+                <li><a href="@Url.Action("Logout", "Autenticacao")"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
+                
+            </ul>
+        }
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="@Url.Action("Reclamacoes", "Ouvidoria")"><i class="glyphicon glyphicon-comment"></i> Reclamações</a></li>
+            <li><a href="@Url.Action("Cadastrar", "Autenticacao")"><i class="glyphicon glyphicon-user"></i> Cadastrar</a></li>
+            <li><a href="@Url.Action("About", "Home")"><i class="glyphicon glyphicon-info-sign"></i> Informações</a></li>
+            <li><a href="@Url.Action("Index", "Autenticacao")"><i class="glyphicon glyphicon-log-in"></i> Entrar</a></li>
+        </ul>
+    }
+}

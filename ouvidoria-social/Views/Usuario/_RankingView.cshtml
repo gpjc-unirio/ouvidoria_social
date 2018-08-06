@@ -1,0 +1,233 @@
+﻿@using Ouvidoria_Social_DataAccess
+<div class="col-md-10">
+
+    @{
+        var model = ConnectionDbClass.DataModel;
+        
+        var tipo = (int) ViewData["idTipoRanking"];
+        var fs = (int)ViewData["fontSize"];
+        
+        var pessoas = model.Pessoas.Where(w => w.Tipo == 'P' && w.IsAtivo.Value == 'S').ToList();
+        
+        var titulo = "Pontuação Ganha";
+        switch (tipo)
+        {
+            case 1:
+            {
+                titulo ="Pontuação Ganha";
+
+                pessoas = pessoas.OrderByDescending(o => o.Pessoa_nivel_pontos.First().Pontos)
+                    .ThenByDescending(o => o.Reclamacaos.Count(c => c.IsSolucionado.Value))
+                    .ThenByDescending(o => o.Pessoa_desafios.Count(c => c.Ganho.Value))
+                    .ToList();
+                
+                break;
+            }
+            case 2:
+            {
+                titulo = "Desafios Completos";
+
+                pessoas = pessoas.OrderByDescending(o => o.Pessoa_desafios.Count(c => c.Ganho.Value))
+                    .ThenByDescending(o => o.Pessoa_nivel_pontos.First().Pontos)
+                    .ToList();
+                
+                break;
+            }
+            case 3:
+            {
+                titulo = "Solucionadores";
+
+                pessoas = pessoas.OrderByDescending(o => o.Reclamacaos.Count(c => c.IsSolucionado.Value))
+                    .ThenByDescending(o => o.Pessoa_nivel_pontos.First().Pontos)
+                    .ToList();
+                
+                break;
+            }
+            case 4:
+            {
+                titulo = "Reclamadores";
+
+                pessoas = pessoas.OrderByDescending(o => o.Reclamacaos.Count())
+                    .ThenByDescending(o => o.Pessoa_nivel_pontos.First().Pontos)
+                    .ToList();
+                
+                break;
+            }
+        }
+
+        var usuario = (Usuario)HttpContext.Current.Session["Usuario"];
+
+        var posUsuario = 0;
+        if (usuario != null)
+        {
+            posUsuario = pessoas.FindIndex(f => f.Id == usuario.Id_pessoa) + 1;
+        }
+        
+        if (fs != 0)
+        {
+            titulo = "Ranking de Pontos";
+            pessoas = pessoas.Take(3).ToList();
+        }
+        else
+        {
+            pessoas = pessoas.Take(10).ToList();    
+        }
+        
+        var cont = 0;
+    }
+
+    <div class="panel panel-info">
+        <div class="panel-heading text-center">
+            <h2>@titulo</h2>
+        </div>
+        <div class="panel-body">    
+            @foreach (var p in pessoas)
+            {
+                cont++;
+                long? valor = 0;
+                switch (tipo)
+                {
+                    case 1:
+                    {
+                            valor = p.Pessoa_nivel_pontos.First().Pontos;
+                            break;
+                        }
+                    case 2:
+                    {
+                            valor = p.Pessoa_desafios.Count(c => c.Ganho.Value);
+                            break;
+                        }
+                    case 3:
+                        {
+                            valor = p.Reclamacaos.Count(c => c.IsSolucionado.Value);
+                            var rec = p.Reclamacaos.ToList();
+                            break;
+                        }
+                    case 4:
+                        {
+                            valor = p.Reclamacaos.Count();
+                            break;
+                        }
+                }
+
+                var fonte = "16px";
+                var img = "";
+                if (cont == 1)
+                {
+                    fonte = "32px";
+                    img = "18.PNG";
+                }else if (cont == 2)
+                {
+                    fonte = "26px";
+                    img = "17.PNG";
+                }else if(cont == 3)
+                {
+                    fonte = "22px";
+                    img = "16.PNG";
+                }
+
+                if (fs != 0)
+                {
+                    fonte = fs.ToString() + "px";
+                }
+                
+                <div class="row">
+                    <div class="col-md-1 vertical-align center-block">
+                        @if (img != "")
+                        {
+                            <img src="@Url.Content("~/Images/badges/" + img)" width="58" height="58" class="img-responsive">
+                        }
+                    </div>
+                    <div class="col-md-2 vertical-align center-block">
+                        @{
+                            var sobrenome = "";
+                            var nomes = p.Nome.Trim().Split(' ');
+                            if (nomes.Count() >= 2)
+                            {
+                                sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+                            }
+
+                            var urlComentario = Url.Content("~/Images/Uploads/Avatar/" + p.Avatar);
+                        }
+                        @if (!string.IsNullOrEmpty(p.Avatar))
+                        {
+                            <a href='@Url.Action("Perfil", "Usuario", new {Id = @p.Id})'>
+                                <img class="img-circle" src='@urlComentario' width="48" height="48">
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-lg" style="border-radius: 100px" href='@Url.Action("Perfil", "Usuario", new {Id = @p.Id})'>
+                                @(p.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                            </a>
+                        }
+                    </div>
+                    <div class="col-md-1 text-center vertical-align" style="font-size: @fonte; font-weight: bold">@(cont + "º")</div>
+                    <div class="col-md-6 vertical-align" style='font-size: @fonte; font-weight: bold'>@p.Nome</div>
+                    <div class="col-md-2 vertical-align" style='font-size: @fonte; font-weight: bold'>@valor</div>
+                </div>
+                <hr/>
+            }
+
+            @if ((posUsuario != 0) && (fs != 0))
+            {
+                <div class="row alert alert-warning">
+                    <div class="col-md-3 vertical-align center-block">
+                        <strong>Sua Posição</strong>
+                    </div>
+                    <div class="col-md-2 vertical-align center-block">
+                        @{
+
+                            var fonte = fs.ToString() + "px";
+                            var sobrenome = "";
+                            var nomes = usuario.Pessoa.Nome.Trim().Split(' ');
+                            if (nomes.Count() >= 2)
+                            {
+                                sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+                            }
+
+                            var urlComentario = Url.Content("~/Images/Uploads/Avatar/" + usuario.Pessoa.Avatar);
+                        }
+
+                        @if (!string.IsNullOrEmpty(usuario.Pessoa.Avatar))
+                        {
+                            <a href='@Url.Action("Perfil", "Usuario", new { Id = @usuario.Pessoa.Id })'>
+                                <img class="img-circle" src='@urlComentario' width="48" height="48">
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-lg" style="border-radius: 100px" href='@Url.Action("Perfil", "Usuario", new { Id = @usuario.Pessoa.Id })'>
+                                @(usuario.Pessoa.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                            </a>
+                        }
+                    </div>
+                    <div class="col-md-1 text-center vertical-align" style="font-size: @fonte; font-weight: bold">@(posUsuario + "º")</div>
+                    <div class="col-md-4 vertical-align" style='font-size: @fonte; font-weight: bold'>@usuario.Pessoa.Nome</div>
+                    <div class="col-md-2 vertical-align" style='font-size: @fonte; font-weight: bold'>@usuario.Pessoa.Pessoa_nivel_pontos.First().Pontos</div>
+                </div>
+                <hr />
+            }
+        </div>
+        <div class="panel-footer text-left">
+            <div class="row">
+                <div class="col-md-9">
+                    @{
+                        var qtde = 10;
+                        if (fs != 0)
+                        {
+                            qtde = 3;
+                        }
+                    }
+                    <strong><small>Serão exibidos apenas os @(qtde) primeiros resultados.</small></strong>
+                </div>
+                <div class="col-md-3">
+                    @if (fs != 0)
+                    {
+                        <button class="btn btn-default" type="submit" data-dismiss="modal">Fechar</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

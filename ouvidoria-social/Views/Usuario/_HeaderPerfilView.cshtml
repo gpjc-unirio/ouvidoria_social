@@ -1,0 +1,146 @@
+﻿@model Pessoa
+@using ouvidoria_social.Models.Utils
+@using Ouvidoria_Social_DataAccess
+@using Ouvidoria_Social_DataAccess.Control
+
+@{
+    var usuario = (Usuario)HttpContext.Current.Session["Usuario"];
+
+    var isThisUser = false;
+    if (usuario != null)
+    {
+        isThisUser = Model.Id == usuario.Pessoa.Id;
+    }
+
+    var sobrenome = "";
+    var nomes = Model.Nome.Trim().Split(' ');
+    if (nomes.Count() >= 2)
+    {
+        sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+    }
+    
+}
+
+
+    <div class="row vertical-align">
+        <div class="col-md-2 text-center">
+
+            @if (isThisUser)
+            {
+                if (string.IsNullOrEmpty(Model.Avatar))
+                {
+                    <a class="btn btn-primary btn-lg" style="border-radius: 100px" href='#'>
+                        <div class="perfil-circ-lg">
+                            @(Model.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a href="#" alt="Alterar Imagem Perfil" data-toggle="modal" data-target="#myModal">
+                        <img class="img-circle" src='@Url.Content("~/Images/Uploads/Avatar/" + Model.Avatar)' width="128" height="128"/>
+                    </a>
+                }
+                <small><a data-toggle="modal" data-target="#myModal" href='#'>Alterar Imagem</a></small>
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(Model.Avatar))
+                {
+                    <a class="btn btn-primary btn-lg" style="border-radius: 100px" href='#'>
+                        <div class="perfil-circ-lg">
+                            @(Model.Nome.ToUpper().Substring(0, 1) + @sobrenome)
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <img class="img-circle" src='@Url.Content("~/Images/Uploads/Avatar/" + Model.Avatar)' width="128" height="128">
+                }
+            }
+        </div>
+        <div class="col-md-6">
+            <h2>
+                @if (Model.IsAtivo.Value == 'S')
+                {
+                    <strong>@Model.Nome</strong>
+                }
+                else
+                {
+                    <strong style="color: red;"><del><cite title="Usuário Inativos">@Model.Nome</cite></del></strong>
+                }
+                <br />
+                <!--
+                @if (Model.Apelido != "")
+                {
+                    <small>(@Model.Apelido)</small>
+                }
+                -->
+            </h2>
+            <hr/>
+            @if (TipoAmbienteCtrl.ControlarGamificacao)
+            {
+                <div class="row">
+                    @if (Model.Pessoa_nivel_pontos.Count > 0)
+                    {
+                        var nivelPessoa = Model.Pessoa_nivel_pontos[0];
+
+                        var proxNivel = PontuacaoUtils.PontosProximoNivel(Model);
+
+                        if (nivelPessoa.Pontos > proxNivel)
+                        {
+                            if (PontuacaoUtils.AvancarNivel(Model))
+                            {
+                                var model = ConnectionDbClass.DataModel;
+                                
+                                nivelPessoa = Model.Pessoa_nivel_pontos[0];
+
+                                nivelPessoa.Nivel = nivelPessoa.Nivel + 1;
+
+                                if (model.HasChanges)
+                                {
+                                    model.SaveChanges();
+                                }
+                                
+                                proxNivel = PontuacaoUtils.PontosProximoNivel(Model);
+                            }
+                        }
+                        
+                        var difPontos = proxNivel - nivelPessoa.Pontos;
+
+                        var perc = (nivelPessoa.Pontos*100)/proxNivel;
+
+                        var msg = nivelPessoa.Pontos + " de " + proxNivel + " pontos";
+
+                        <div class="col-md-10">
+                            <span style="font-size: 26px;"><strong>Nível @nivelPessoa.Nivel</strong></span><small> (@(difPontos) ponto(s) para o próximo nivel @(nivelPessoa.Nivel + 1))</small>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="@nivelPessoa.Pontos" aria-valuemin="0" aria-valuemax="@proxNivel" style="width: @perc%;">
+                                            <div id="valorRegistro" style="color: black; font-weight: bold">@msg</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            @if (ViewBag.Erro != "" && ViewBag.Erro != null)
+            {
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Erro:</strong>
+                    <p>@ViewBag.Erro</p>
+                </div>
+            }
+        </div>
+    </div>
+

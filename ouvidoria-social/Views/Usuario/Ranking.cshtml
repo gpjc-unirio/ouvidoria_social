@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#t1").click(function() {
+            ativarRaking(this);
+        });
+        $("#t2").click(function () {
+            ativarRaking(this);
+        });
+        $("#t3").click(function () {
+            ativarRaking(this);
+        });
+        $("#t4").click(function () {
+            ativarRaking(this);
+        });
+
+    });
+
+    function ativarRaking(tipo) {
+        //alert(tipo.id);
+        $("#t1").removeClass("active");
+        $("#t2").removeClass("active");
+        $("#t3").removeClass("active");
+        $("#t4").removeClass("active");
+
+        $("#" + tipo.id).addClass("active");
+    }
+
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading text-center">
+        <h2> <i class="glyphicon glyphicon-star"></i> Rankings </h2>
+    </div>
+    <div class="panel-body">
+        <div id="divProgress" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+            <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")" /> <strong>Carregando...</strong>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" id="t1" class="active">
+                        <a data-ajax="true" data-ajax-loading="#divProgress" data-ajax-method="POST" data-ajax-mode="replace"
+                           data-ajax-update="#ranking" href="@Url.Action("AlterarRanking", "Usuario", new {id = 1})">Pontuação Granha</a>
+                    </li>
+                    <li role="presentation" id="t2">
+                        <a data-ajax="true" data-ajax-loading="#divProgress" data-ajax-method="POST" data-ajax-mode="replace"
+                           data-ajax-update="#ranking" href="@Url.Action("AlterarRanking", "Usuario", new {id = 2})">Desafios Completos</a>
+                    </li>
+                    <li role="presentation" id="t3">
+                        <a data-ajax="true" data-ajax-loading="#divProgress" data-ajax-method="POST" data-ajax-mode="replace"
+                           data-ajax-update="#ranking" href="@Url.Action("AlterarRanking", "Usuario", new {id = 3})">Solucionadores</a>
+                    </li>
+                    <li role="presentation" id="t4">
+                        <a data-ajax="true" data-ajax-loading="#divProgress" data-ajax-method="POST" data-ajax-mode="replace"
+                           data-ajax-update="#ranking" href="@Url.Action("AlterarRanking", "Usuario", new {id = 4})">Reclamadores</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="ranking">
+                @{
+                    var viewData = new ViewDataDictionary();
+                    viewData["idTipoRanking"] = ViewData["idTipoRanking"];
+                    viewData["fontSize"] = 0;
+                }
+
+                @Html.Partial("_RankingView", viewData)
+            </div>
+        </div>
+    </div>
+</div>

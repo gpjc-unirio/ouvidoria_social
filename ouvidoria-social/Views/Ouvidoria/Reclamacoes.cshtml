@@ -1,0 +1,56 @@
+﻿@model List<Ouvidoria_Social_DataAccess.Reclamacao>
+
+@{
+    ViewBag.Title = "Reclamacoes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reclamações</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            @using (Ajax.BeginForm("FiltrarReclamacoes", "Ouvidoria", new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "recRecentes",
+            LoadingElementId = "divProgress",
+            InsertionMode = InsertionMode.Replace
+        }))
+            {
+                <div class="col-md-12">
+                    <div class="input-group embed-responsive-item">
+                        @Html.TextBox("stringBusca", "", new Dictionary<string, object>() { { "class", "form-control" }, { "placeholder", "Busca por..." } })
+                        <span class="input-group-addon">
+                            @Html.CheckBox("isSolucionado", false) Solucionado
+                        </span>
+                        <span class="input-group-btn">
+                            <select class="selectpicker" data-width="auto" id="tipoBusca" name="tipoBusca">
+                                <option value="4">Título</option>
+                                <option value="1">Pessoa</option>
+                                <option value="2">Instituição</option>
+                                <option value="6">Departamento</option>
+                                <option value="3">Descrição</option>
+                                <option value="5">Todos</option>
+                            </select>
+                            <button class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="divProgress" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+        <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")"/> <strong>Carregando...</strong>
+    </div>
+
+    <div id="recRecentes">
+        @{
+            var viewData = new ViewDataDictionary();
+            viewData["Pagina"] = ViewBag.Pagina;
+        }
+        @Html.Partial("_ReclamacoesRecentesView", Model, viewData)
+    </div>
+</div>
+

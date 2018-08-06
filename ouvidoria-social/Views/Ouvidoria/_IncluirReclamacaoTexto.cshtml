@@ -1,0 +1,47 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Reclamacao
+
+@{
+    var model = ConnectionDbClass.DataModel;
+
+    var insts = model.Instituicaos.OrderBy(o => o.Nome).ToList();
+
+    var lstInstituicoes = new SelectList(insts, "Id", "Nome", insts.First());
+}
+<ul class="nav nav-tabs nav-justified">
+    <li role="presentation" class="active"><a href="#"><i class="glyphicon glyphicon-text-background"></i> Texto</a></li>
+    <li role="presentation">
+        <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#reclamacao" href="@Url.Action("_IncluirReclamacao", "Ouvidoria", new {tipo = "m"})">
+            <i class="glyphicon glyphicon-picture"></i> Foto/Vídeo
+        </a>
+    </li>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                @if (Model != null)
+                {
+                    @Html.HiddenFor(l => l.Id)
+                }
+
+                @Html.LabelFor(l => l.Titulo)<br />
+                @Html.TextBoxFor(l => l.Titulo, new Dictionary<string, object>() { { "class", "form-control" }, {"autofocus", "autofocus"}, { "maxlength", 50 } })<br />
+
+                @Html.Label("Instituição")
+                @Html.DropDownListFor(l => l.Id_instituicao, lstInstituicoes, new Dictionary<string, object>() { { "class", "form-control" } })<br />
+                <!--
+                <small><a data-toggle="modal" data-target="#myModal" href='#'>Incluir Nova Instituição</a></small><br/>
+                -->
+                @Html.Label("Departamento")
+                @Html.TextBoxFor(l => l.Departamento, new Dictionary<string, object>() { { "class", "form-control" } })
+            </div>
+
+            <div class="col-md-6">
+                @Html.Label("Descrição da Reclamação")<br />
+                @Html.TextAreaFor(l => l.Descricao, new Dictionary<string, object>() { { "class", "form-control textarea" }, { "maxlength", 2500 } })<br />
+            </div>
+        </div>
+    </div>
+</div>
+

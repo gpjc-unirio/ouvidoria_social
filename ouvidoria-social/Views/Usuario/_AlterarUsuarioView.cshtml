@@ -1,0 +1,32 @@
+﻿@model ouvidoria_social.Models.Adapter.UsuarioAdapter
+
+<script src="/Scripts/jquery.validate.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Alteração de Usuário</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AlterarUsuario", "Usuario", FormMethod.Post))
+        {
+            @Html.LabelFor(l => l.Login)<br />
+            @Html.TextBoxFor(l => l.Login, new Dictionary<string, object>() { { "autofocus", "autofocus" }, { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control" } })<br />
+
+            @Html.Label("Senha Antiga")<br />
+            @Html.PasswordFor(l => l.OldPassword, new Dictionary<string, object>() { { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control " } })<br />
+
+            @Html.LabelFor(l => l.Senha)<br />
+            @Html.PasswordFor(l => l.Senha, new Dictionary<string, object>() { { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control " } })<br />
+
+            @Html.Label("Confirme a Nova Senha")<br />
+            @Html.PasswordFor(l => l.ConfirmaPassword, new Dictionary<string, object>() { { "maxlenght", 100 }, { "size", 90 }, { "class", "form-control " } })<br />
+
+            @Html.ValidationSummary()
+
+            <p />
+            <button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button>
+        }
+    </div>
+</div>
+

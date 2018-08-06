@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityDiagrams>
+  <entityDiagramsDiagram dslVersion="2.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="ModeloBanco" isDefault="true">
+    <DomainModelMoniker name="/ModeloBanco" />
+    <nestedChildShapes>
+      <classShape Id="553a77b1-223b-407f-8575-2a31952c4ab5" isExpanded="false" absoluteBounds="2.5, 2.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Usuario" />
+        <nestedChildShapes>
+          <elementListCompartment Id="fba400c5-4ffa-43b3-a7aa-cfaa2e21e4e8" absoluteBounds="2.515, 3.01, 1.4700000000000002, 1.2108968098958333" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="b767d3e7-da0c-4420-ab85-6794ad19d890" absoluteBounds="2.515, 4.0385953776041665, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="12a3f4bf-5a14-4346-82ac-6f535d0dc62a" absoluteBounds="2.515, 4.2979850260416663, 1.4700000000000002, 0.63399251302083326" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <classShape Id="1eaffa41-4145-4523-9ed6-6b22eaa1bb28" isExpanded="false" absoluteBounds="0.5, 2.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Uf" />
+        <nestedChildShapes>
+          <elementListCompartment Id="457455d2-7bf8-4033-8977-f72b647302a4" absoluteBounds="0.515, 3.01, 1.4700000000000002, 0.63399251302083326" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="41d15795-5a32-493e-9c04-d67e1624f514" absoluteBounds="0.515, 3.6539925130208335, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="03515a47-5915-4466-b83c-235a54503231" absoluteBounds="0.515, 3.9133821614583333, 1.4700000000000002, 0.44169108072916652" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <classShape Id="61f5623c-1e42-41cb-828c-225e7c040a08" isExpanded="false" absoluteBounds="0.5, 1.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Pessoa" />
+        <nestedChildShapes>
+          <elementListCompartment Id="83ef52e7-c05e-4b96-a3b3-edae90df1d8a" absoluteBounds="0.515, 2.01, 1.4700000000000002, 2.5570068359375" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="10e7b824-3966-4d34-a1a6-f4ab0a8ef2e6" absoluteBounds="0.515, 4.5770068359375, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="764b5e98-57c1-44cc-843b-893e093f8ebc" absoluteBounds="0.515, 4.8363964843749994, 1.4700000000000002, 1.9801025390625" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <classShape Id="ef32ea44-af61-40b6-9b99-8e0a690ba401" isExpanded="false" absoluteBounds="2.5, 1.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Instituicao" />
+        <nestedChildShapes>
+          <elementListCompartment Id="62068bd4-1e91-444e-90d0-d68e2d8f0025" absoluteBounds="2.515, 2.01, 1.4700000000000002, 1.5954996744791667" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="b143edb1-fa97-4b41-a48f-0c3ea823e075" absoluteBounds="2.515, 3.6154996744791665, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="b3499979-dae4-45f6-881f-c9e89ab1a61c" absoluteBounds="2.515, 3.8748893229166663, 1.4700000000000002, 1.0185953776041665" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <classShape Id="51292477-d17a-403f-ae42-dc8434740c9f" isExpanded="false" absoluteBounds="2.5, 0.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Cidade" />
+        <nestedChildShapes>
+          <elementListCompartment Id="3f37dfb9-ea73-4ca0-87c1-035dcdafa59d" absoluteBounds="2.515, 1.01, 1.4700000000000002, 0.8262939453125" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="8ed25058-5bc4-4d13-a6d1-de2005505e80" absoluteBounds="2.515, 1.8462939453125, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="b4a7eb6c-9fa5-4c0a-a0e1-d23e29fde503" absoluteBounds="2.515, 2.1056835937500002, 1.4700000000000002, 0.82629394531250022" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(3.25 : 2.5); (3.25 : 2.25); (2.52083333333333 : 2.25 : JumpStart); (2.35416666666667 : 2.25 : JumpEnd); (2.33333333333333 : 2.25 : JumpStart); (2.16666666666667 : 2.25 : JumpEnd); (1.656252 : 2.25); (1.656252 : 2)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="60eea38b-874f-4bb0-abd8-95c3864836da" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="553a77b1-223b-407f-8575-2a31952c4ab5" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(2 : 1.6132825); (2.5 : 1.6132825)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="01910afe-23f3-457c-9875-690e75ff214e" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+          <classShapeMoniker Id="ef32ea44-af61-40b6-9b99-8e0a690ba401" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(1.25 : 1.5); (1.25 : 0.75); (2.5 : 0.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="b3895773-90d4-4276-9c94-4655843c4409" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+          <classShapeMoniker Id="51292477-d17a-403f-ae42-dc8434740c9f" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(3.25 : 1.5); (3.25 : 1)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="87cb0c06-9e9c-4d41-8058-7770d806a51a" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="ef32ea44-af61-40b6-9b99-8e0a690ba401" />
+          <classShapeMoniker Id="51292477-d17a-403f-ae42-dc8434740c9f" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(3.25 : 1); (3.25 : 1.25); (2.25 : 1.25); (2.25 : 2.75); (2 : 2.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="5cd4a13c-1954-4cac-8a25-854f84a48df2" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="51292477-d17a-403f-ae42-dc8434740c9f" />
+          <classShapeMoniker Id="1eaffa41-4145-4523-9ed6-6b22eaa1bb28" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="73fd3b1b-9c3d-47c2-8ede-9135395fe697" isExpanded="false" absoluteBounds="2.5, 3.375, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Reclamacao" />
+        <nestedChildShapes>
+          <elementListCompartment Id="7c06d7ec-a1ed-46e2-83c0-a7730cacea7b" absoluteBounds="2.5149999999999997, 3.885, 1.4700000000000002, 2.5570068359375" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="2cce0388-b39d-42bb-8c17-e0af29e31d67" absoluteBounds="2.515, 6.4520068359375, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="d1eda132-1693-481b-a3ca-0a45a13bd0b3" absoluteBounds="2.515, 6.7113964843749994, 1.4700000000000002, 1.0185953776041661" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(3.25 : 3.375); (3.25 : 3.0625); (2.4375 : 3.0625); (2.4375 : 1.851565); (2.33333333333333 : 1.851565 : JumpStart); (2.16666666666667 : 1.851565 : JumpEnd); (2 : 1.851565)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="2c122109-00d1-4e5d-8f3e-bc003ca5c9a9" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="73fd3b1b-9c3d-47c2-8ede-9135395fe697" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(3.25 : 3.375); (3.25 : 3.09375); (4.0625 : 3.09375); (4.0625 : 1.75); (4 : 1.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="7521bfa9-712b-48a0-bdfc-7232cd69d602" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="73fd3b1b-9c3d-47c2-8ede-9135395fe697" />
+          <classShapeMoniker Id="ef32ea44-af61-40b6-9b99-8e0a690ba401" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="b725d06c-bfdc-4fd0-b66e-122f67c54093" isExpanded="false" absoluteBounds="4.5, 0.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Log_acesso" />
+        <nestedChildShapes>
+          <elementListCompartment Id="d79185ad-f527-45a2-93ac-f322abc4f1c2" absoluteBounds="4.515, 1.01, 1.4700000000000002, 0.8262939453125" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="1cc31945-ee5e-41b4-8180-f6e455213d88" absoluteBounds="4.515, 1.8462939453125, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="26487513-cfbf-4661-b433-dcf17a24c49d" absoluteBounds="4.515, 2.1056835937500002, 1.4700000000000002, 0.44169108072916674" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(5.25 : 1); (5.25 : 1.25); (4.25 : 1.25); (4.25 : 2.75); (4 : 2.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="f5c52097-f2e9-4d79-9ee0-1431e44fb873" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="b725d06c-bfdc-4fd0-b66e-122f67c54093" />
+          <classShapeMoniker Id="553a77b1-223b-407f-8575-2a31952c4ab5" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="48b3855b-4900-469e-b2df-e4d608b6a357" isExpanded="false" absoluteBounds="0.5, 3.375, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Comentario" />
+        <nestedChildShapes>
+          <elementListCompartment Id="768de841-73a7-4a41-b4c1-1113431ad7b3" absoluteBounds="0.515, 3.885, 1.4700000000000002, 2.1724039713541665" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="188be43c-51f3-4010-aea3-fdee09cb8646" absoluteBounds="0.515, 5.6828011067708335, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="09df64f7-2989-4c8a-9be2-476a53b6cafb" absoluteBounds="0.515, 5.9421907552083333, 1.4700000000000002, 0.8262939453125" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(2 : 3.61854939778646); (2.16666666666667 : 3.61854939778646 : JumpStart); (2.33333333333333 : 3.61854939778646 : JumpEnd); (2.5 : 3.61854939778646)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="40299501-298b-4d16-8d12-4d4fddf6835c" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="48b3855b-4900-469e-b2df-e4d608b6a357" />
+          <classShapeMoniker Id="73fd3b1b-9c3d-47c2-8ede-9135395fe697" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(0.5 : 3.625); (0.125 : 3.625); (0.125 : 1.75); (0.5 : 1.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="3ec39d52-ab79-4855-a459-bc887b2cb4c8" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="48b3855b-4900-469e-b2df-e4d608b6a357" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="e7a82519-9a53-464d-9fd9-47226e9553a8" isExpanded="false" absoluteBounds="4.5, 1.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Log_participapao" />
+        <nestedChildShapes>
+          <elementListCompartment Id="4ab92860-5ea5-489f-a03e-b17643efba4a" absoluteBounds="4.515, 2.01, 1.4700000000000002, 1.9801025390625" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="0de827fe-a11d-4805-8f50-e1ed60e2513d" absoluteBounds="4.515, 3.8078011067708331, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="56df221e-bbe2-4639-81e2-e75f1c07f48d" absoluteBounds="4.515, 4.0671907552083333, 1.4700000000000002, 0.8262939453125" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(4.8750005 : 2); (4.8750005 : 2.125); (4.25 : 2.125); (4.25 : 3.625); (4 : 3.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="ace1ab18-1e6f-496a-887d-dffc854d7c0b" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="e7a82519-9a53-464d-9fd9-47226e9553a8" />
+          <classShapeMoniker Id="73fd3b1b-9c3d-47c2-8ede-9135395fe697" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(4.5 : 1.75); (4.25 : 1.75); (4.25 : 2.2578125); (1.25 : 2.2578125); (1.25 : 2)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="cc7b8584-12a0-4541-8185-fc52d7a700f0" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="e7a82519-9a53-464d-9fd9-47226e9553a8" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="869e433d-ec1b-4473-8e02-56fe54b85c58" isExpanded="false" absoluteBounds="0.5, 4.375, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Pessoa_nivel_ponto" />
+        <nestedChildShapes>
+          <elementListCompartment Id="62bea5f5-4e06-490c-b24d-ce0773ba1ab4" absoluteBounds="0.515, 4.885, 1.4700000000000002, 1.0185953776041665" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="7257a983-09ba-4523-b469-9a98b44044ee" absoluteBounds="0.515, 5.9135953776041665, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="a815eea9-4678-42ad-9961-d3fc4574aee4" absoluteBounds="0.515, 6.1729850260416663, 1.4700000000000002, 0.44169108072916674" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(0.5 : 4.625); (0.0625 : 4.625); (0.0625 : 1.906252); (0.5 : 1.906252)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="53c9a45e-c93f-4986-a440-147ad86f2503" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="869e433d-ec1b-4473-8e02-56fe54b85c58" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="fd472b04-d239-4484-8d04-d557eff2bbe2" isExpanded="false" absoluteBounds="2.5, 4.375, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Log_pontos_pessoa" />
+        <nestedChildShapes>
+          <elementListCompartment Id="eb5a8fe5-8f37-4763-88c6-62b321bf58b3" absoluteBounds="2.515, 4.885, 1.4700000000000002, 1.4031982421875" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="eb08b45f-d14f-491d-9713-5c22515ef621" absoluteBounds="2.515, 5.9135953776041665, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="7349b8ba-9327-479a-985e-e6fb2e56fd31" absoluteBounds="2.515, 6.1729850260416663, 1.4700000000000002, 0.44169108072916674" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(3.25 : 4.375); (3.25 : 4.125); (2.25 : 4.125); (2.25 : 1.851565); (2 : 1.851565)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="6340f5c7-91fe-4d38-8eaf-7ece1738bc4d" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="fd472b04-d239-4484-8d04-d557eff2bbe2" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="386f019e-ae71-4f66-9ade-cdd7214a42fe" isExpanded="false" absoluteBounds="4.5, 2.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Departamento" />
+        <nestedChildShapes>
+          <elementListCompartment Id="e92fe4c9-240b-4279-a055-8933edb3a52e" absoluteBounds="4.515, 3.01, 1.4700000000000002, 0.8262939453125" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="0c98caf6-5f19-4979-bde6-862e2743bdb6" absoluteBounds="4.515, 3.8462939453125, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="3becfe36-b371-4620-9de4-da30dcdcc1b1" absoluteBounds="4.515, 4.10568359375, 1.4700000000000002, 0.44169108072916674" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(5.25 : 2.5); (5.25 : 2.25); (3.6249995 : 2.25); (3.6249995 : 2)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="22d26be6-8afe-48da-a969-6cbe0e41fead" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="386f019e-ae71-4f66-9ade-cdd7214a42fe" />
+          <classShapeMoniker Id="ef32ea44-af61-40b6-9b99-8e0a690ba401" />
+        </nodes>
+      </associationConnector>
+      <classShape Id="1a8d83f9-fe6f-41b9-ad14-38fad90d6d72" isExpanded="false" absoluteBounds="4.5, 4.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Pessoa_desafio" />
+        <nestedChildShapes>
+          <elementListCompartment Id="1979fcba-1996-456b-980c-0b625a5a9dd0" absoluteBounds="4.515, 5.01, 1.4700000000000002, 1.5954996744791667" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="ee3a4d7e-156c-4e03-a079-4463862fb966" absoluteBounds="4.515, 6.6154996744791665, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="ec7be6b3-7373-4b21-9cca-1dafa7c9f51b" absoluteBounds="4.515, 6.8748893229166663, 1.4700000000000002, 0.633992513020833" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <classShape Id="ebf48de1-798a-4e10-be36-df80bb262a12" isExpanded="false" absoluteBounds="4.5, 3.5, 1.5, 0.5">
+        <DomainClassMoniker name="/ModeloBanco/Desafio" />
+        <nestedChildShapes>
+          <elementListCompartment Id="1bd62ff2-f327-432e-aaaa-3d7427c3d931" absoluteBounds="4.515, 4.01, 1.4700000000000002, 0.8262939453125" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="972a211f-82ce-47c0-9034-f1e756b6fa7c" absoluteBounds="4.515, 4.6539925130208335, 1.4700000000000002, 0.2493896484375" name="ImplementationsCompartment" titleTextColor="Black" itemTextColor="Black" />
+          <elementListCompartment Id="55004cd6-4ba5-4dbf-93ba-63708d2ddcce" absoluteBounds="4.515, 4.9133821614583333, 1.4700000000000002, 0.44169108072916652" name="NavigationCompartment" titleTextColor="Black" itemTextColor="Black" />
+        </nestedChildShapes>
+      </classShape>
+      <associationConnector edgePoints="[(4.5 : 4.75); (4.0625 : 4.75); (4.0625 : 2.09375); (3.70833283333333 : 2.09375 : JumpStart); (3.54166616666667 : 2.09375 : JumpEnd); (2.33333333333333 : 2.09375 : JumpStart); (2.16666666666667 : 2.09375 : JumpEnd); (1.25 : 2.09375); (1.25 : 2)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="4cc0eb79-0969-458d-b7a7-bd233fb6ef1f" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="1a8d83f9-fe6f-41b9-ad14-38fad90d6d72" />
+          <classShapeMoniker Id="61f5623c-1e42-41cb-828c-225e7c040a08" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(5.25 : 4.5); (5.25 : 4)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="919a85da-f83e-4b0f-9cfc-d40fe427f707" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="1a8d83f9-fe6f-41b9-ad14-38fad90d6d72" />
+          <classShapeMoniker Id="ebf48de1-798a-4e10-be36-df80bb262a12" />
+        </nodes>
+      </associationConnector>
+      <associationConnector edgePoints="[(4.5 : 1.906252); (4.33333333333333 : 1.906252 : JumpStart); (4.16666666666667 : 1.906252 : JumpEnd); (4.0625 : 1.906252); (4.0625 : 3.28125); (1.25 : 3.28125); (1.25 : 3.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+        <AssociationMoniker Id="934fafb6-7e2e-4819-9419-e9f74fb4095f" />
+        <relativeChildShapes />
+        <nodes>
+          <classShapeMoniker Id="e7a82519-9a53-464d-9fd9-47226e9553a8" />
+          <classShapeMoniker Id="48b3855b-4900-469e-b2df-e4d608b6a357" />
+        </nodes>
+      </associationConnector>
+    </nestedChildShapes>
+  </entityDiagramsDiagram>
+</EntityDiagrams>

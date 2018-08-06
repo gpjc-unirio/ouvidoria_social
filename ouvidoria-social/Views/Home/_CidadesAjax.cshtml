@@ -1,0 +1,31 @@
+﻿@model List<DataAcesse_Telerik.CIDADE>
+
+<div class="grid">
+    <table cellspacing="0" width="80%">
+        <thead>
+            <tr>
+                <th>
+                    Sigla
+                </th>
+                <th>
+                    Nome
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <td align="left">
+                        @item.CIDADE1
+                    </td>
+                    <td align="left">
+                        @item.UF
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

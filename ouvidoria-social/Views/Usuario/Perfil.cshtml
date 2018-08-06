@@ -1,0 +1,229 @@
+﻿@model Pessoa
+@using Microsoft.Ajax.Utilities
+@using ouvidoria_social.Models.Utils
+@using Ouvidoria_Social_DataAccess
+@using Ouvidoria_Social_DataAccess.Control
+
+@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var usuario = (Usuario)HttpContext.Current.Session["Usuario"];
+    
+    var nomeModalRanking = "";
+    if (TipoAmbienteCtrl.ControlarGamificacao)
+    {
+        if (Session["RankingAcesso"] != null)
+        {
+            if ((bool) Session["RankingAcesso"])
+            {
+                nomeModalRanking = "myRanking";
+                Session["RankingAcesso"] = false;
+            }
+        }
+    }
+
+    var isThisUser = false;
+    if (usuario != null)
+    {
+        isThisUser = Model.Id == usuario.Pessoa.Id;
+    }
+    
+    var model = ConnectionDbClass.DataModel;
+    
+    var reclamacoes = model.Reclamacaos.Where(w => w.Id_pessoa == Model.Id).ToList();
+    if (Model.Instituicao != null)
+    {
+        var inst = model.Instituicaos.FirstOrDefault(f => f.Pessoas.Any(a => a.Id == Model.Id));
+
+        reclamacoes = model.Reclamacaos.Where(w => w.Id_instituicao == inst.Id).ToList();
+    }
+
+    if (isThisUser)
+    {
+        if (PontuacaoUtils .AvancarNivel(Model))
+        {
+            var nivelAtual = model.Pessoa_nivel_pontos.First(f => f.Id_pessoa == Model.Id);
+
+            nivelAtual.Nivel++;
+
+            if (model.HasChanges)
+            {
+                model.SaveChanges();
+            }
+        }
+    }
+}
+
+<script type="text/javascript">
+    $(document).on('change', '.btn-file :file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function() {
+        $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+        });
+
+        $("#divProgressPerfil").css("display", "none");
+        $("#myRanking").modal("show");
+    });
+
+    function SucessoReclamacao() {
+        $("#tabDesafio").removeClass("active");
+        $("#tabReclamacao").addClass("active");
+    }
+
+    function SucessoDesafio() {
+        $("#tabDesafio").addClass("active");
+        $("#tabReclamacao").removeClass("active");
+    }
+</script>
+
+<div class="container">
+
+    @Html.Partial("_HeaderPerfilView")
+    <br/>
+    <div class="row">
+
+        <div class="col-md-3">
+            @if (Model.Instituicao == null)
+            {
+                <div class="row">
+                    <div class="list-group">
+                        <a class="list-group-item active" data-ajax="true" data-ajax-loading="#divProgressPerfil"
+                           data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="SucessoReclamacao"
+                           data-ajax-update="#tbsTabelas" href="@Url.Action("_ReclamacoesUsuario", "Usuario", new {isThisUser = isThisUser})"
+                           id="tabReclamacao">
+                            <i class="glyphicon glyphicon-comment"></i> Minhas Reclamações
+                        </a>
+
+                        @if (TipoAmbienteCtrl.ControlarGamificacao)
+                        {
+                            <a class="list-group-item " data-ajax="true" data-ajax-loading="#divProgressPerfil"
+                               data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="SucessoDesafio"
+                               data-ajax-update="#tbsTabelas"
+                               href="@Url.Action("_DesafiosPessoa", "Usuario", new {IdPessoa = Model.Id})" id="tabDesafio">
+                                <i class="glyphicon glyphicon-star"></i> Desafios
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <h3 class="panel-title"><i class="glyphicon glyphicon-user"> </i> Informaçoes Básicas</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!--
+                        @Html.LabelFor(l => l.Telefone)<br/>
+                        @Model.Telefone<br/>
+                        -->
+                        @Html.Label("E-mail")<br/>
+                        @Model.Email<br/>
+
+                        <!--
+                        @Html.Label("Cidade / Estado")<br/>
+                        @if (Model.Cidade != null)
+                        {
+                            @Model.Cidade.Cidade1
+                            <span>(@Model.Cidade.Uf)</span>
+                        }<br/>
+                        -->
+                        @Html.Label("Descrição")<br/>
+                        @if (Model.Descricao != null)
+                        {
+                            foreach (var desc in Model.Descricao.Split('\n'))
+                            {
+                                @desc<br/>
+                            }
+                        }
+                    </div>
+                    @if (isThisUser)
+                    {
+                        <div class="panel-footer text-center">
+                            <a class="btn btn-primary" href="@Url.Action("AlterarPerfil", "Usuario", new {Id = Model.Id})"><i class="glyphicon glyphicon glyphicon-pencil"></i> Alterar</a>
+                            <a class="btn btn-primary" href="@Url.Action("DesativarPerfil", "Usuario", new {Id = Model.Id})"><i class="glyphicon glyphicon glyphicon-remove"></i> Desativar</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div id="tbsTabelas">
+            <div id="divProgressPerfil" class="alert alert-info" style="position: fixed; left: 50%; top: 50%; display: none;">
+                <img src="@Url.Content("~/Images/Utils/ajax-progress.gif")" /> <strong>Carregando...</strong>
+            </div>
+            @{
+                var viewDataReclamacoesUsuarioView = new ViewDataDictionary();
+                viewDataReclamacoesUsuarioView.Add("isThisUser", isThisUser);
+            }
+
+            @if (Model.Instituicao != null)
+            {
+                @Html.Partial("_ReclamacaoInstituicaoView", reclamacoes, viewDataReclamacoesUsuarioView)
+            }
+            else
+            {
+                @Html.Partial("_ReclamacoesUsuarioView", reclamacoes, viewDataReclamacoesUsuarioView)
+            }
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal modal-vcenter fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Alteração de Imagem de Perfil</h4>
+            </div>
+            @using (Html.BeginForm("AlterarImagem", "Usuario", FormMethod.Post, new Dictionary<string, object>() {{"enctype", "multipart/form-data"}}))
+            {
+                <div class="modal-body">
+                    @Html.Label("Carregar Nova Imagem")
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Buscar Imagem&hellip; <input type="file" name="file" id="file">
+                            </span>
+                        </span>
+                        <input type="text" class="form-control" readonly>
+                    </div><br/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-floppy-disk"></i> Gravar</button>
+                    <button class="btn btn-default" type="submit" data-dismiss="modal"><i class="glyphicon glyphicon glyphicon-ban-circle"></i> Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-vcenter fade" id="@nomeModalRanking" tabindex="-1" role="dialog" aria-labelledby="myRankingLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        @{
+            var viewData = new ViewDataDictionary();
+            viewData["idTipoRanking"] = 1;
+            viewData["fontSize"] = 12;
+        }
+
+        <div class="row center-block">
+            @Html.Partial("_RankingView", viewData)
+        </div>
+    </div>
+</div>

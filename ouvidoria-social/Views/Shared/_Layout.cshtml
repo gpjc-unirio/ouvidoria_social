@@ -1,0 +1,141 @@
+﻿@using Ouvidoria_Social_DataAccess.Control
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ouvidoria Social</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap/newsbox")
+    
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#divProgress").css("display", "none");
+        $("#divProgress2").css("display", "none");
+        $("#divProgress3").css("display", "none");
+
+        var urlLogin = "@Html.Raw(Url.Action("Index", "Autenticacao"))";
+
+        $("#alert1").click(function () {
+            if (!$("#alertmsg1").is(".in")) {
+                $("#alertmsg1").addClass("in");
+
+                setTimeout(function () {
+                    $("#alertmsg1").removeClass("in");
+                }, 5000);
+            };
+        });
+
+        $("#closeAlert").click(function () {
+            $("#alertmsg1").removeClass("in");
+
+            $(location).attr('href', urlLogin);
+        });
+        
+        var url = "@Html.Raw(Url.Action("_TimePartialViewAjax", "Home"))";
+        var notificacaoUrl = "@Html.Raw(Url.Action("_QtdeNotificacoes", "Home"))";
+        var urlNiveis = "@Html.Raw(Url.Action("_VerificarNivel", "Home"))";
+
+        $("#msg").load(notificacaoUrl);
+        setInterval(function () {
+            $("#msg").load(notificacaoUrl);
+        }, 10000);
+
+        $("#bdg").load(url);
+
+
+        setInterval(function () {
+            $("#bdg").load(url);
+        }, 3000);
+
+        setInterval(function() {
+
+            $.get(urlNiveis, function (data) {
+
+                if (data != "") {
+                    $("#msgPontos").html(data);
+
+                    if (!$("#alertPontos").is(".in")) {
+                        $("#alertPontos").addClass("in");
+
+                        setTimeout(function () {
+                            $("#alertPontos").removeClass("in");
+                        }, 7000);
+                    };
+                }
+            });
+
+        }, 5000);
+
+        $("#closePontos").click(function () {
+            $("#alertPontos").removeClass("in");
+        });
+
+
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            container: 'body',
+            placement: 'top'
+        });
+    });
+    </script>
+</head>
+
+<body>
+    
+    <div class="navbar navbar-custom navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                    <img src="@Url.Content("~/Images/logo/logo.png")" alt="Ouvidoria Social" width="100"/>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("_NotificationPartial")
+
+<div class="container">
+    <p/>
+    @RenderBody()
+    <hr/>
+    <footer>
+        <!--<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>-->
+    </footer>
+</div>
+
+<div id="alertmsg1" class="alert alert-info flyover flyover-bottom">
+    <button type="button" id="closeAlert" class="close" aria-hidden="true">×</button>
+    <div id="finalResult">
+        
+    </div>
+</div>
+
+    
+@if(TipoAmbienteCtrl.ControlarGamificacao){
+    <div id="alertPontos" class="alert alert-success flyover flyover-bottom">
+        <button type="button" id="closePontos" class="close" aria-hidden="true">×</button>
+        <div id="msgPontos">
+
+        </div>
+    </div>
+}
+</body>
+    
+</html>

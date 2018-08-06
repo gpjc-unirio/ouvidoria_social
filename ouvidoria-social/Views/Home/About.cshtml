@@ -1,0 +1,96 @@
+﻿@using System.Linq
+@using Ouvidoria_Social_DataAccess.Control
+@{
+    ViewBag.Title = "About";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Informações de Contato</h3>
+            </div>
+            <div class="panel-body text-justify">
+                <p>Este sistema é o artefato de uma pesquisa conduzida com base no método <i>Design Science Research</i> na disciplina de Sistemas Colaborativos do Programa de Pós-Graduação em Informática (<a href="http://www2.uniriotec.br/ppgi">PPGI</a>) da UNIRIO.</p>
+                <p>Autores:</p>
+                <address>
+                    <strong>Tadeu Moreira de Classe (Doutorando)</strong><br>
+                    <ul>
+                        <li>E-mail: <a href="mailto:tadeu.classe@gmail.com">tadeu.classe@gmail.com</a></li>
+                        <li>Whatsapp: +5532988087710</li>
+                    </ul>
+                </address>
+                <address>
+                    <strong>Jonas Silva (Mestrando)</strong><br>
+                    <ul>
+                        <li>E-mail: <a href="mailto:jonas.silva@uniriotec.br">jonas.silva@uniriotec.br</a></li>
+                    </ul>
+                </address>
+                <hr/>
+                <p>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />O trabalho <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Ouvidoria Social</span> de <a xmlns:cc="http://creativecommons.org/ns#" href="https://sourceforge.net/projects/ouvidoria-social/" property="cc:attributionName" rel="cc:attributionURL">Tadeu Classe, Jonas Silva, Mariano Pimentel e Universidade Federal do Estado do Ria de Janeiro (UNIRIO)</a> está licenciado com uma Licença <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons - Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional</a>.<br />Baseado no trabalho disponível em <a xmlns:dct="http://purl.org/dc/terms/" href="https://tadeuclasse@git.code.sf.net/p/ouvidoria-social/code" rel="dct:source">https://tadeuclasse@git.code.sf.net/p/ouvidoria-social/code</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+    @if (TipoAmbienteCtrl.ControlarGamificacao)
+    {
+        var lstPontos = new Dictionary<string, int>()
+        {
+            {"Cadastro de um novo usuário na Ouvidoria Social", 5},
+            {"Acessar alguma reclamação", 1},
+            {"Cadastrou uma nova reclamação", 10},
+            {"Curtir uma reclamação de algum reclamador", 2},
+            {"Sua reclamação foi curtida por algum reclamador", 2},
+            {"Descurtir reclamação de algum reclamador", 1 },
+            {"Sua reclamação foi descurtida por algum reclamador", -1},
+            {"Comentar uma reclamação de algum reclamador", 3},
+            {"Seu comentário foi marcado como solução de alguma reclamação", 5},
+            {"Seu comentário foi desmarcado como solução de alguma reclamação", -5},
+            {"Curtir comentário de algum reclamador",  1},
+            {"Seu comentário foi curtido por algum reclamador", 1},
+            {"Descurtir comentário de algum reclamador", 1 },
+            {"Seu comentário foi descurtido por algum reclamador", -1},
+            {"Solucionar alguma de suas reclamações", 50},
+            {"Inseriu uma reclamação com conteúdo de mídia", 3}
+        };
+
+        lstPontos = lstPontos.OrderByDescending(o => o.Value).ToDictionary(p => p.Key, p => p.Value);
+        
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Informações de Pontuação</h3></div>
+                <div class="panel-body">
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                        <tr>
+                            <th>Descrição do Ponto</th>
+                            <th>Pontuação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var ponto in lstPontos)
+                        {
+                            var cor = "";
+                            if (ponto.Value >= 3)
+                            {
+                                cor = "#0000FF; font-weight: bold;";
+                            }
+                            else if(ponto.Value < 0)
+                            {
+                                cor = "#FF0000; font-weight: bold;";
+                            }
+                            
+                            <tr>
+                                <td class="text-left" style="color: @cor">@ponto.Key</td>
+                                <td class="text-right" style="color: @cor">@ponto.Value</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,107 @@
+﻿@using ouvidoria_social.Models.Adapter
+@using Ouvidoria_Social_DataAccess
+@model List<Ouvidoria_Social_DataAccess.Log_participapao>
+
+@{
+    Usuario user = null;
+    if (Session["Usuario"] != null)
+    {
+        user = (Usuario)Session["Usuario"];
+    }
+}
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <a class="label label-primary" href="@Url.Action("MarcarNotificacoesLidas", "Home", new {idPessoa = user.Id_pessoa})"><i class="glyphicon glyphicon-check"></i> Marcar como Lidas</a>
+    </div>
+</div>
+<hr/>
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class='row'>
+                <div class='col-md-3'>
+                    @if (!string.IsNullOrEmpty(item.Pessoa.Avatar))
+                    {
+                        var urlPessoa = Url.Content("~/Images/Uploads/Avatar/" + item.Pessoa.Avatar);
+
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = item.Id_pessoa})'>
+                            <img class='img-circle' src='@urlPessoa' width='32' height='32'> 
+                            @item.Pessoa.Nome
+                        </a>
+                    }
+                    else
+                    {
+                        var sobrenome = "";
+                        var nomes = item.Pessoa.Nome.Trim().Split(' ');
+                        if (nomes.Count() >= 2)
+                        {
+                            sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+                        }
+
+                        <a class="btn btn-primary btn-sm" style="border-radius: 100px" href='@Url.Action("Perfil", "Usuario", new {Id = item.Id_pessoa})'>
+                            @(item.Pessoa.Nome.ToUpper().Substring(0, 1) + sobrenome)
+                        </a>
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = item.Id_pessoa})'>
+                            @item.Pessoa.Nome
+                        </a> 
+                    }
+
+                </div>
+                <div class='col-md-9'>
+                    @{
+                        var str = "";
+
+                        var nome = item.Pessoa.Nome;
+                        if (nome.Length > 5)
+                        {
+                            nome = nome.Substring(0, 5) + "...";
+                        }
+
+                        var icon = "";
+
+                        if (item.Tipo.Contains("Descur"))
+                        {
+                            icon = "<i class='glyphicon glyphicon-thumbs-down'></i> ";
+                        }
+                        else if (item.Tipo.Contains("Curt"))
+                        {
+                            icon = "<i class='glyphicon glyphicon-thumbs-up'></i> ";
+                        }
+                        else if (item.Tipo.ToLower().Contains("soluc"))
+                        {
+                            icon = "<i class='glyphicon glyphicon-check'></i> ";
+                        }
+                        else if (item.Tipo.Contains("Acess"))
+                        {
+                            icon = "<i class='glyphicon glyphicon-share-alt'></i> ";
+                        }
+                        else if (item.Tipo.Contains("Coment"))
+                        {
+                            icon = "<i class='glyphicon glyphicon-comment'></i> ";
+                        }
+
+                        if ((item.Tipo == "Descurtiu") || (item.Tipo == "Acessou") || (item.Tipo == "Curtiu") || (item.Tipo == "Solucionou"))
+                        {
+                            str = icon +
+                                  "<a href='" + Url.Action("Perfil", "Usuario", new { Id = item.Pessoa.Id }) + "'>" + nome + "</a> " + item.Tipo +
+                                  " a " +
+                                  "<a href='" + Url.Action("AcessarReclamacao", "Ouvidoria", new { Id = item.Reclamacao.Id }) + "'>Reclamação</a>";
+                        }
+                        else
+                        {
+                            str = icon +
+                                  "<a href='" + Url.Action("Perfil", "Usuario", new { Id = item.Pessoa.Id }) + "'>" + nome + "</a> " + item.Tipo +
+                                  " na " +
+                                  "<a href='" + Url.Action("AcessarReclamacao", "Ouvidoria", new { Id = item.Reclamacao.Id }) + "'>Reclamação</a>";
+                        }
+                    }
+
+                    @Html.Raw(str);
+                </div>
+            </div>
+        </div>
+    </div>
+}

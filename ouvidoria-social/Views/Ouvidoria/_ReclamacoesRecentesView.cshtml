@@ -1,0 +1,125 @@
+﻿@using ouvidoria_social.Models.Utils
+@using Ouvidoria_Social_DataAccess
+@model List<Ouvidoria_Social_DataAccess.Reclamacao>
+
+@{
+    var recs = Model.ToList();
+    
+    var qtdePorPagina = 10;
+    
+    var paginas = (recs.Count / qtdePorPagina) + 1;
+    if (recs.Count() % qtdePorPagina == 0)
+    {
+        paginas = (recs.Count / qtdePorPagina);
+    }
+
+    var paginaEnviada = (int)ViewData["Pagina"];
+    var skip = (paginaEnviada * qtdePorPagina) - qtdePorPagina;
+    
+    recs = recs.Skip(skip).Take(qtdePorPagina).ToList();
+}
+
+<div class="panel-body" id="recRecentes">
+    <table class="table table-striped table-responsive">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Instituição</th>
+            <th>Postado a...</th>
+            <th class="text-center"><cite title="Curtidas"><i class="glyphicon glyphicon-thumbs-up"></i></cite></th>
+            <th class="text-center"><cite title="Descurtidas"><i class="glyphicon glyphicon-thumbs-down"></i></cite></th>
+            <th class="text-center"><cite title="Comentários"><i class="glyphicon glyphicon-comment"></i></cite></th>
+            <th style="text-align: center;">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var rec in recs)
+        {
+            var iSolucionado = rec.Comentarios.Any(a => a.IsSolucao == true);
+
+            <tr>
+                <td>
+                    <a href="@Url.Action("AcessarReclamacao", "Ouvidoria", new {Id = rec.Id})">
+                        @rec.Titulo
+                    </a>
+                </td>
+                <td>
+                    @if (rec.Instituicao != null)
+                    {
+                        <a href="@Url.Action("Perfil", "Usuario", new {Id = rec.Instituicao.Pessoas[0].Id})">@rec.Instituicao.Nome</a>
+                    }
+                </td>
+                <th class="text-left">
+                    @DataUtils.ToStringPost(rec.DataHora.Value)
+                </th>
+                <th class="text-center">@(rec.Likes ?? 0)</th>
+                <th class="text-center">@(rec.Deslikes ?? 0)</th>
+                <th class="text-center">@rec.Comentarios.Count</th>
+                <td style="text-align: center;">
+                    @if (iSolucionado)
+                    {
+                        <i class="glyphicon glyphicon-ok-sign text-center"></i>
+                    }
+                    else
+                    {
+                        <i class="glyphicon glyphicon-remove-sign text-center"></i>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot class="text-left">
+        <tr>
+            <td colspan="3"><strong>Total de Registros: @Model.Count()</strong></td>
+            <td colspan="3" class="text-right">
+                <strong>
+                    Legenda: <i class="glyphicon glyphicon-ok-sign text-center"></i> Solucionado
+                    <i class="glyphicon glyphicon-remove-sign text-center"></i> Não Solucionado
+                </strong>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="panel-footer text-center">
+    <nav>
+        <ul class="pagination">
+
+            @{
+                var qtdeLinksNav = 10;
+
+                var pags = paginas >= qtdeLinksNav ? qtdeLinksNav : paginas;
+            }
+
+            @for (int i = 1; i <= pags; i++)
+            {
+                var active = i == paginaEnviada ? "active" : "";
+                
+                <li class="@active">
+                    @Ajax.ActionLink(i.ToString(), "NavegarPaginaReclamacao", new { pagina = i }, new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "recRecentes",
+                        LoadingElementId = "divProgress",
+                        InsertionMode = InsertionMode.Replace
+                    })
+                </li>
+            }
+            
+            @if (paginas > qtdeLinksNav)
+            {
+                var active = paginas == paginaEnviada ? "active" : "";
+                
+                <li class="disabled"><a href="#">...</a></li>
+
+                <li class="@active">
+                    <a data-ajax="true" data-ajax-loading="#divProgress" data-ajax-method="POST" data-ajax-mode="replace" 
+                       data-ajax-update="#recRecentes" href="@Url.Action("NavegarPaginaReclamacao", "Ouvidoria", new { pagina = paginas })">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

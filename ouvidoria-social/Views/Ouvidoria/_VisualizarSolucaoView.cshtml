@@ -1,0 +1,91 @@
+﻿@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Comentario
+
+@{
+    Usuario usuario = null;
+    var i = 0;
+
+    Comentario comentario = Model;
+    
+    if (Session["Usuario"] != null)
+    {
+        usuario = (Usuario)Session["Usuario"];
+    }
+}
+
+
+<div class="panel panel-success">
+    <div class="panel-heading text-center">
+        <div class="row vertical-align">
+            <div class="col-md-4 text-left">
+                @{
+                    var nickComentario = comentario.Pessoa.Nome;
+                    var urlComentario = Url.Content("~/Images/Uploads/Avatar/" + comentario.Pessoa.Avatar);
+                }
+                @if (usuario != null)
+                {
+                    <a href='@Url.Action("Perfil", "Usuario", new {Id = @comentario.Pessoa.Id})'>
+                        @if (!string.IsNullOrEmpty(comentario.Pessoa.Avatar))
+                        {
+                            <img class="img-circle" alt='@nickComentario' src='@urlComentario' width="56" height="56">
+                        }
+                        @nickComentario
+                    </a>
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(comentario.Pessoa.Avatar))
+                    {
+                        <img class="img-circle" alt='@nickComentario' src='@urlComentario' width="56" height="56">
+                    }
+                    @nickComentario
+                }
+            </div>
+            <div class="col-md-6 text-center">
+                <h2>Solução</h2>
+                <h3>@comentario.Titulo</h3>
+            </div>
+        </div>
+
+    </div>
+    <div class="panel-body text-left">
+        @if (comentario.Descricao != null)
+        {
+            foreach (var desc in comentario.Descricao.Split('\n'))
+            {
+                @desc<br />
+            }
+        }
+    </div>
+    <div class="panel-footer">
+        @if (usuario != null)
+        {
+            <div class="row">
+                <div class="col-md-2  text-left">
+                    <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="OnSuccess" data-ajax-update="#likesComentario_@comentario.Id"
+                        href="@Url.Action("_AtualizarLikesDeslikesComentario", "Ouvidoria", new {id = comentario.Id, tipo = true})">
+                        <span id="likesComentario_@comentario.Id">
+                            <span class=" glyphicon glyphicon-thumbs-up gi-2x"></span><span>@(comentario.Likes ?? 0)</span>
+                        </span>
+                    </a>&nbsp;
+
+                    <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="OnSuccess" data-ajax-update="#deslikesComentario_@comentario.Id"
+                        href="@Url.Action("_AtualizarLikesDeslikesComentario", "Ouvidoria", new {id = comentario.Id, tipo = false})">
+                        <span id="deslikesComentario_@comentario.Id">
+                            <span class="glyphicon glyphicon-thumbs-down gi-2x"></span><span>@(comentario.Deslikes ?? 0)</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-md-10  text-right">
+                    @if (!string.IsNullOrEmpty(comentario.Colaboradores))
+                    {
+                        <span>Colaboradores: </span>@comentario.Colaboradores.Trim().Replace("\n", ", ");
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+

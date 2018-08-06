@@ -1,0 +1,213 @@
+﻿@using System.Globalization
+@using Ouvidoria_Social_DataAccess
+@model Ouvidoria_Social_DataAccess.Reclamacao
+@{
+    Usuario usuario = null;
+    var isOwner = false;
+
+    var comentarios = Model.Comentarios.OrderByDescending(o => o.IsSolucaoFinal).ThenByDescending(o => o.IsSolucao).ThenByDescending(t => t.Id).ToList();
+    
+    if (Session["Usuario"] != null)
+    {
+        usuario = (Usuario) Session["Usuario"];
+
+        if (Model.Pessoa != null)
+        {
+            isOwner = Model.Pessoa.Id == usuario.Pessoa.Id;
+        }
+    }
+}
+
+@foreach (var comentario in comentarios)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <div class="row vertical-align">
+                <div class="col-md-6 text-left">
+                    @{
+                        var sobrenome = "";
+                        var nomes = comentario.Pessoa.Nome.Trim().Split(' ');
+                        if (nomes.Count() >= 2)
+                        {
+                            sobrenome = nomes[nomes.Count() - 1].ToUpper().Substring(0, 1);
+                        }
+                        
+                        var nickComentario = comentario.Pessoa.Nome;
+                        var urlComentario = Url.Content("~/Images/Uploads/Avatar/" + comentario.Pessoa.Avatar);
+                    }
+
+                    @if (!string.IsNullOrEmpty(comentario.Pessoa.Avatar))
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new {Id = @comentario.Pessoa.Id})'>
+                            <img class="img-circle" alt='@nickComentario' src='@urlComentario' width="32" height="32"> @nickComentario
+                        </a>
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("Perfil", "Usuario", new { Id = @comentario.Pessoa.Id })' class="btn btn-primary btn-sm" style="border-radius: 100px">
+                            @(nickComentario.ToUpper().Substring(0, 1) + @sobrenome)
+                        </a>
+                        @nickComentario
+                    }
+                    
+                </div>
+                <div class="col-md-6 text-right">
+                    @if (isOwner)
+                    {
+                        if (!Model.IsSolucionado.Value)
+                        {
+                            if (comentario.IsSolucao.Value)
+                            {
+                                <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="OnSuccess" data-ajax-update="#comentarios"
+                                   href="@Url.Action("_MarcarDesmarcarMelhorReposta", "Ouvidoria", new {id = comentario.Id, idRec = comentario.Id_reclamacao, marcar = false})"
+                                   class="btn btn-success btn-xs">
+                                    <i class="glyphicon glyphicon-star"></i> Melhores Respostas
+                                </a>
+                            }
+                            else
+                            {
+                                <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-success="OnSuccess" data-ajax-update="#comentarios"
+                                   href="@Url.Action("_MarcarDesmarcarMelhorReposta", "Ouvidoria", new {id = comentario.Id, idRec = comentario.Id_reclamacao, marcar = true})"
+                                   class="btn btn-default btn-xs">
+                                    <i class="glyphicon glyphicon-star-empty"></i> Melhores Respostas
+                                </a>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (comentario.IsSolucao.Value)
+                        {
+                            <span class="btn btn-success btn-xs">
+                                <i class="glyphicon glyphicon-star"></i> Melhores Respostas
+                            </span>
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body text-left">
+            @if (comentario.IsSolucaoFinal.Value)
+            {
+                if (!string.IsNullOrEmpty(comentario.Anexo))
+                {
+                    <div align="center" class="embed-responsive embed-responsive-16by9">
+                        @{
+                            var urlAnexo = Url.Content("~/Images/Uploads/Queixa/" + comentario.Anexo);
+
+                            if (comentario.Anexo != null)
+                            {
+                                if (comentario.Anexo.Contains("jpg"))
+                                {
+                                    <a href="@urlAnexo">
+                                        <img class="img-responsive center-block embed-responsive-item" src='@urlAnexo'/>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <video controls class="embed-responsive-item">
+                                        <source src='@urlAnexo' type='video/mp4;'>
+                                        HTML5 Video is required for this video.
+                                        <a href="@urlAnexo">Download the video</a> file.
+                                    </video>
+                                }
+                            }
+                        }
+                        
+                    </div>
+                }
+                
+                <hr/>
+            }
+            
+            <p>
+                @if (comentario.Descricao != null)
+                {
+                    foreach (var desc in comentario.Descricao.Split('\n'))
+                    {
+                        @desc<br/>
+                    }
+                }
+            </p>
+
+        </div>
+        <div class="panel-footer">
+            @if (usuario != null)
+            {
+                var meuComentario = usuario.Id_pessoa == comentario.Id_pessoa;
+
+                if (!meuComentario)
+                {
+                    var liked = comentario.Log_participapaos.Where(w => w.Id_curtidor == usuario.Id_pessoa && w.Tipo.ToLower().Contains("curti")).ToList();
+
+                    if (liked.Count == 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-2  text-left">
+                                <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#likesComentario_@comentario.Id"
+                                   id="likesComentario_@comentario.Id" data-ajax-success="Desativar(likesComentario_@(comentario.Id).id);"
+                                   href="@Url.Action("_AtualizarLikesDeslikesComentario", "Ouvidoria", new {id = comentario.Id, tipo = true})">
+                                    <span id="likesComentario_@comentario.Id">
+                                        <span class=" glyphicon glyphicon-thumbs-up"></span><span>@(comentario.Likes ?? 0)</span>
+                                    </span>
+                                </a>&nbsp;
+
+                                <a data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#deslikesComentario_@comentario.Id"
+                                   id="deslikesComentario_@comentario.Id" data-ajax-success="Desativar(deslikesComentario_@(comentario.Id).id);"
+                                   href="@Url.Action("_AtualizarLikesDeslikesComentario", "Ouvidoria", new {id = comentario.Id, tipo = false})">
+                                    <span id="deslikesComentario_@comentario.Id">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span><span>@(comentario.Deslikes ?? 0)</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="col-md-10  text-right">
+                                <small>Criado em: @comentario.DataComentario.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</small>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-2  text-left">
+                                <span id="likesComentario_@comentario.Id">
+                                    <span class=" glyphicon glyphicon-thumbs-up"></span><span>@(comentario.Likes ?? 0)</span>
+                                </span>
+                                <span id="deslikesComentario_@comentario.Id">
+                                    <span class="glyphicon glyphicon-thumbs-down"></span><span>@(comentario.Deslikes ?? 0)</span>
+                                </span>
+                            </div>
+                            <div class="col-md-10  text-right">
+                                <small>Criado em: @comentario.DataComentario.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</small>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-2  text-left">
+                            <span id="likesComentario_@comentario.Id">
+                                <span class=" glyphicon glyphicon-thumbs-up"></span><span>@(comentario.Likes ?? 0)</span>
+                            </span>
+                            <span id="deslikesComentario_@comentario.Id">
+                                <span class="glyphicon glyphicon-thumbs-down"></span><span>@(comentario.Deslikes ?? 0)</span>
+                            </span>
+                        </div>
+                        <div class="col-md-10  text-right">
+                            <small>Criado em: @comentario.DataComentario.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-12  text-right">
+                        <small>Criado em: @comentario.DataComentario.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)</small>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
